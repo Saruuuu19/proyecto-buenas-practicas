@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ModaFlex - Carrito de compras</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__container">
+      <h1 class="header__logo">Moda<span>Flex</span></h1>
+      <button id="toggle-cart" class="cart-button" aria-label="Abrir carrito">
+        <span class="cart-button__icon">🛒</span>
+        <span id="cart-count" class="cart-button__badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="catalog">
+    <h2 class="catalog__title">Catálogo de productos</h2>
+    <div id="product-list" class="product-grid"></div>
+  </main>
+
+  <div id="cart-overlay" class="overlay hidden"></div>
+
+  <aside id="cart-drawer" class="cart-drawer" aria-label="Carrito de compras">
+    <div class="cart-drawer__header">
+      <h2>Mi carrito</h2>
+      <button id="close-cart" class="cart-drawer__close" aria-label="Cerrar carrito">&times;</button>
+    </div>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <div id="cart-empty" class="cart-empty">
+      <p>Tu carrito está vacío</p>
+      <small>Agrega productos para comenzar tu compra</small>
+    </div>
+
+    <div class="cart-summary">
+      <div class="cart-summary__row">
+        <span>Subtotal</span>
+        <span id="subtotal">$0.00</span>
+      </div>
+      <div class="cart-summary__row">
+        <span>Envío</span>
+        <span id="shipping">$0.00</span>
+      </div>
+      <div class="cart-summary__row cart-summary__row--total">
+        <span>Total</span>
+        <span id="total">$0.00</span>
+      </div>
+      <button id="checkout" class="checkout-button">Finalizar compra</button>
+    </div>
+  </aside>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

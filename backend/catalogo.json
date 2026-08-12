@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "titulo": "Camiseta Alemania",
+    "descripcion": "Camiseta deportiva con diseño inspirado en Alemania. Ideal para entrenar o para un look casual con estilo.",
+    "imagen": "../images/camiseta-alemania.webp",
+    "precio": 85000
+  },
+  {
+    "id": 2,
+    "titulo": "Camiseta Axepeak",
+    "descripcion": "Camiseta urbana Axepeak de corte moderno, cómoda y perfecta para el uso diario.",
+    "imagen": "../images/camiseta-axepeak.webp",
+    "precio": 79000
+  },
+  {
+    "id": 3,
+    "titulo": "Camiseta Polo",
+    "descripcion": "Camisa tipo polo clásica, elegante y fresca. Ideal para ocasiones casuales y semi-formales.",
+    "imagen": "../images/camiseta-polo.jpeg",
+    "precio": 72000
+  },
+  {
+    "id": 4,
+    "titulo": "Camiseta Polo LA",
+    "descripcion": "Polo con estilo Los Angeles. Un clásico renovado que combina comodidad y estilo urbano.",
+    "imagen": "../images/camiseta-polo-la.jpeg",
+    "precio": 75000
+  },
+  {
+    "id": 5,
+    "titulo": "Chaqueta",
+    "descripcion": "Chaqueta versátil de uso diario, abrigada y con diseño moderno para cualquier ocasión.",
+    "imagen": "../images/chaqueta.jpeg",
+    "precio": 140000
+  },
+  {
+    "id": 6,
+    "titulo": "Jogger Dragon",
+    "descripcion": "Jogger con estampado dragón, cómodo y con actitud. Perfecto para el look streetwear.",
+    "imagen": "../images/jogger-dragon.jpeg",
+    "precio": 98000
+  }
+]
