@@ -1,25 +1,25 @@
-# PROJECT: FASHION PRODUCT CATALOG
+# PROYECTO: CATALOGO DE PRODUCTOS DE MODA
 
-## TEAM MEMBERS
+## INTEGRANTES
 
 - Santiago Suarez
 - Santiago Guerra
 - Andrés Retamoso
 
-## SHOPPING CART / SUAREZ
+## CARRITO DE COMPRAS / SUAREZ
 
-Development of the platform's shopping cart module. Features to add, remove and edit products, manage quantities and calculate the total purchase value, taking the user experience of e-commerce platforms as a reference.
+Desarrollo del módulo de carrito de compras de la plataforma. Se implementarán funcionalidades para agregar, eliminar y modificar productos, gestionar cantidades y calcular el valor total de la compra, tomando como referencia la experiencia de usuario de plataformas de comercio electrónico.
 
-**Responsible:** Santiago Suarez
+**Responsable:** Santiago Suarez
 
-**Status:** In development
+**Estado:** En desarrollo
 
-## HOW TO RUN
+## CÓMO EJECUTAR
 
-1. Start the backend:
+1. Inicia el backend:
    ```
    cd backend
    npm install
    npm start
    ```
-2. Open `index.html` in your browser.
+2. Abre `index.html` en tu navegador.
