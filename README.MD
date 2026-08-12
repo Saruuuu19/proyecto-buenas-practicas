@@ -16,6 +16,18 @@ Desarrollo del módulo de carrito de compras de la plataforma. Se implementarán
 
 ## CÓMO EJECUTAR
 
+**Requisito:** tener Node.js instalado (https://nodejs.org)
+
+### Opción fácil (Windows)
+Doble clic en `start.bat`. Instala las dependencias, enciende el servidor y abre la tienda automáticamente.
+
+### Opción fácil (Mac / Linux)
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+### Manual
 1. Inicia el backend:
    ```
    cd backend
