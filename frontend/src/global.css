@@ -1,72 +1,10 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #0058be;
-  --color-primary-container: #2170e4;
-  --color-on-primary: #ffffff;
-  --color-on-primary-container: #fefcff;
-  --color-secondary: #565e74;
-  --color-secondary-container: #dae2fd;
-  --color-on-secondary: #ffffff;
-  --color-on-secondary-container: #5c647a;
-  --color-tertiary: #4d5d73;
-  --color-tertiary-container: #66768d;
-  --color-on-tertiary: #ffffff;
-  --color-on-tertiary-container: #fdfcff;
-  --color-error: #ba1a1a;
-  --color-error-container: #ffdad6;
-  --color-on-error: #ffffff;
-  --color-on-error-container: #93000a;
-  --color-surface: #f8f9fa;
-  --color-surface-container: #edeeef;
-  --color-surface-container-low: #f3f4f5;
-  --color-surface-container-high: #e7e8e9;
-  --color-surface-container-highest: #e1e3e4;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-variant: #e1e3e4;
-  --color-on-surface: #191c1d;
-  --color-on-surface-variant: #424754;
-  --color-background: #f8f9fa;
-  --color-on-background: #191c1d;
-  --color-outline: #727785;
-  --color-outline-variant: #c2c6d6;
-  --color-inverse-surface: #2e3132;
-  --color-inverse-on-surface: #f0f1f2;
-  --color-inverse-primary: #adc6ff;
-  --color-surface-tint: #005ac2;
-
-  --font-family-sans: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
-
-  --text-display-lg: 48px;
-  --text-display-lg-mobile: 36px;
-  --text-headline-lg: 30px;
-  --text-headline-md: 24px;
-  --text-headline-sm: 20px;
-  --text-body-lg: 18px;
-  --text-body-md: 16px;
-  --text-body-sm: 14px;
-  --text-label-md: 14px;
-
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-2xl: 48px;
-  --spacing-3xl: 64px;
-  --spacing-gutter: 24px;
-
-  --radius-sm: 0.25rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-full: 9999px;
-}
-
 :root {
-  font-family: var(--font-family-sans);
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
-  color: var(--color-on-background);
-  background-color: var(--color-background);
+  color: #213547;
+  background-color: #fff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -80,23 +18,4 @@
 body {
   margin: 0;
   min-height: 100svh;
-}
-
-.product-card {
-  transition: all 0.2s ease-in-out;
-  border: 1px solid var(--color-outline-variant);
-}
-
-.product-card:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  transition: all 0.15s ease-in-out;
-}
-
-.btn-primary:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transform: translateY(-1px);
 }

@@ -1,7 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Header } from "./components/layout/Header";
-import { Footer } from "./components/layout/Footer";
-import { Home } from "./pages/Home";
+import { useEffect } from 'react';
+import { api } from './api/client';
+import type { Product } from './types';
 
 function App() {
   useEffect(() => {
@@ -16,17 +15,9 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <div className="flex min-h-svh flex-col bg-background text-on-background">
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <main className="flex min-h-svh items-center justify-center">
+      <h1 className="text-3xl font-semibold">Frontend</h1>
+    </main>
   );
 }
 
