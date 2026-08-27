@@ -4,6 +4,17 @@ import { Footer } from "./components/layout/Footer";
 import { Home } from "./pages/Home";
 
 function App() {
+  useEffect(() => {
+    api
+      .get<Product[]>('/products/')
+      .then((res) => {
+        console.log('Productos:', res.data);
+      })
+      .catch((err) => {
+        console.error('Error al obtener productos:', err);
+      });
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="flex min-h-svh flex-col bg-background text-on-background">
