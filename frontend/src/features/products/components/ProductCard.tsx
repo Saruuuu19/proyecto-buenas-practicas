@@ -9,21 +9,21 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="product-card bg-surface rounded-xl overflow-hidden flex flex-col h-full group">
-      <div className="relative aspect-[4/5] bg-surface-container-low p-4 flex items-center justify-center overflow-hidden">
+      <div className="relative aspect-4/5 bg-surface-container-low p-4 flex items-center justify-center overflow-hidden">
         <img
           src={product.image}
           alt={product.title}
           className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500"
         />
       </div>
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col grow">
         <span className="font-label-md text-xs text-on-surface-variant mb-1">
           {product.category}
         </span>
         <h3 className="text-headline-md text-on-surface mb-1">
           {product.title}
         </h3>
-        <p className="text-body-sm text-on-surface-variant line-clamp-2 mb-4 flex-grow">
+        <p className="text-body-sm text-on-surface-variant line-clamp-2 mb-4 grow">
           {product.description}
         </p>
         <div className="flex items-center justify-between mt-auto">

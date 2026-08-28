@@ -3,13 +3,13 @@ import { ArrowRight, Cpu, Headphones, Laptop } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-br from-[#0a1628] via-[#0d2847] to-primary overflow-hidden min-h-[420px] flex items-center">
+    <section className="relative bg-linear-to-br from-[#0a1628] via-[#0d2847] to-primary overflow-hidden min-h-105 flex items-center">
       <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-400/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-400/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-0 w-125 h-125 bg-blue-400/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-100 h-100 bg-cyan-400/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="relative w-full max-w-[1280px] mx-auto px-4 md:px-10 py-14 md:py-16 flex flex-col md:flex-row items-center gap-10">
+      <div className="relative w-full max-w-7xl mx-auto px-4 md:px-10 py-14 md:py-16 flex flex-col md:flex-row items-center gap-10">
         <div className="flex-1">
           <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6 tracking-tight">
             La tecnología que necesitas, aquí

@@ -17,7 +17,7 @@ export function CategoryGrid() {
 
   return (
     <section className="py-12">
-      <div className="max-w-[1280px] mx-auto px-4 md:px-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-10">
         <h2 className="text-headline-lg font-semibold text-on-background mb-6">
           Shop by Category
         </h2>
