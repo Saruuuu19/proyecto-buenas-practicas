@@ -16,3 +16,10 @@ Base = declarative_base()
 if __name__ == "__main__":
     with engine.connect() as connection:
         print("Conexión exitosa")
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
