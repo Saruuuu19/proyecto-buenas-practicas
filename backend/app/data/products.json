@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "title": "Teclado Mecánico RGB Switch Blue",
+    "price": 79.99,
+    "description": "Teclado mecánico retroiluminado con switches táctiles ideales para gaming y programación.",
+    "category": "Periféricos",
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600"
+  },
+  {
+    "id": 2,
+    "title": "Mouse Inalámbrico Ergonómico Pro",
+    "price": 49.99,
+    "description": "Sensor óptico de alta precisión con 16,000 DPI, diseño ergonómico y batería de larga duración.",
+    "category": "Periféricos",
+    "image": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=600"
+  },
+  {
+    "id": 3,
+    "title": "Audífonos Bluetooth Active Noise Cancelling",
+    "price": 199.99,
+    "description": "Cancelación de ruido activa, micrófono HD integrado y hasta 30 horas de autonomía continua.",
+    "category": "Audio",
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600"
+  },
+  {
+    "id": 4,
+    "title": "Monitor Gaming 27\" 144Hz IPS",
+    "price": 289.5,
+    "description": "Pantalla Full HD con tiempo de respuesta de 1ms y compatibilidad con FreeSync y G-Sync.",
+    "category": "Monitores",
+    "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600"
+  },
+  {
+    "id": 5,
+    "title": "Laptop TechFlow Pro 15\"",
+    "price": 1299.0,
+    "description": "Potente laptop con procesador de última generación, 16GB RAM y SSD ultrarrápido de 512GB.",
+    "category": "Laptops",
+    "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600"
+  },
+  {
+    "id": 6,
+    "title": "Cámara Web Full HD 1080p",
+    "price": 39.99,
+    "description": "Cámara web para videollamadas y streaming con enfoque automático y micrófono dual con filtro de ruido.",
+    "category": "Accesorios",
+    "image": "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600"
+  },
+  {
+    "id": 7,
+    "title": "Micrófono Condensador USB Studio",
+    "price": 89.9,
+    "description": "Micrófono profesional de patrón cardioide ideal para podcasts, streaming y locución en casa.",
+    "category": "Audio",
+    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600"
+  },
+  {
+    "id": 8,
+    "title": "Smartwatch Deportivo GPS",
+    "price": 149.0,
+    "description": "Monitor de ritmo cardíaco, resistencia al agua hasta 50m y seguimiento de múltiples actividades deportivas.",
+    "category": "Wearables",
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"
+  },
+  {
+    "id": 9,
+    "title": "Disco Duro SSD Externo 1TB NVMe",
+    "price": 119.99,
+    "description": "Velocidades de lectura de hasta 1050 MB/s con cuerpo compacto de aluminio resistente a caídas.",
+    "category": "Almacenamiento",
+    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600"
+  },
+  {
+    "id": 10,
+    "title": "Silla Gamer Ergonómica Pro",
+    "price": 219.0,
+    "description": "Reclinable 180°, soportes lumbar y cervical ajustables con acabado en cuero sintético de alta resistencia.",
+    "category": "Mobiliario",
+    "image": "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=600"
+  },
+  {
+    "id": 11,
+    "title": "Altavoz Portátil Bluetooth Waterproof",
+    "price": 59.99,
+    "description": "Sonido estéreo en 360°, certificación IPX7 a prueba de agua y batería para 12 horas de música.",
+    "category": "Audio",
+    "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600"
+  },
+  {
+    "id": 12,
+    "title": "Tablet Pro 11\" 128GB",
+    "price": 449.0,
+    "description": "Pantalla Retina de alta resolución, compatible con lápiz óptico y teclado magnético para diseño.",
+    "category": "Tablets",
+    "image": "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=600"
+  },
+  {
+    "id": 13,
+    "title": "Router Wi-Fi 6 Mesh Dual Band",
+    "price": 99.5,
+    "description": "Cobertura extendida de alta velocidad para streaming en 4K y conexiones simultáneas de múltiples dispositivos.",
+    "category": "Redes",
+    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600"
+  },
+  {
+    "id": 14,
+    "title": "Visor de Realidad Virtual VR 128GB",
+    "price": 399.0,
+    "description": "Experiencia inmersiva totalmente autónoma sin cables, con resolución 4K y mandos hápticos.",
+    "category": "Gadgets",
+    "image": "https://images.unsplash.com/photo-1622979135225-d2ba269bc1bd?w=600"
+  },
+  {
+    "id": 15,
+    "title": "Tarjeta Gráfica RTX 4070 12GB",
+    "price": 649.99,
+    "description": "Rendimiento de última generación con Ray Tracing y DLSS 3 para gaming fluido en 1440p y 4K.",
+    "category": "Componentes",
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600"
+  }
+]
