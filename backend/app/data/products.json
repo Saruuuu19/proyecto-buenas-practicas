@@ -1,7 +1,6 @@
 [
   {
     "id": 1,
-    "nombre": "Teclado Mecánico RGB Switch Blue",
     "title": "Teclado Mecánico RGB Switch Blue",
     "price": 79.99,
     "description": "Teclado mecánico retroiluminado con switches táctiles ideales para gaming y programación.",
@@ -10,7 +9,6 @@
   },
   {
     "id": 2,
-    "nombre": "Mouse Inalámbrico Ergonómico Pro",
     "title": "Mouse Inalámbrico Ergonómico Pro",
     "price": 49.99,
     "description": "Sensor óptico de alta precisión con 16,000 DPI, diseño ergonómico y batería de larga duración.",
@@ -19,7 +17,6 @@
   },
   {
     "id": 3,
-    "nombre": "Audífonos Bluetooth Active Noise Cancelling",
     "title": "Audífonos Bluetooth Active Noise Cancelling",
     "price": 199.99,
     "description": "Cancelación de ruido activa, micrófono HD integrado y hasta 30 horas de autonomía continua.",
@@ -28,7 +25,6 @@
   },
   {
     "id": 4,
-    "nombre": "Monitor Gaming 27\" 144Hz IPS",
     "title": "Monitor Gaming 27\" 144Hz IPS",
     "price": 289.5,
     "description": "Pantalla Full HD con tiempo de respuesta de 1ms y compatibilidad con FreeSync y G-Sync.",
@@ -37,7 +33,6 @@
   },
   {
     "id": 5,
-    "nombre": "Laptop TechFlow Pro 15\"",
     "title": "Laptop TechFlow Pro 15\"",
     "price": 1299.0,
     "description": "Potente laptop con procesador de última generación, 16GB RAM y SSD ultrarrápido de 512GB.",
@@ -46,7 +41,6 @@
   },
   {
     "id": 6,
-    "nombre": "Cámara Web Full HD 1080p",
     "title": "Cámara Web Full HD 1080p",
     "price": 39.99,
     "description": "Cámara web para videollamadas y streaming con enfoque automático y micrófono dual con filtro de ruido.",
@@ -55,7 +49,6 @@
   },
   {
     "id": 7,
-    "nombre": "Micrófono Condensador USB Studio",
     "title": "Micrófono Condensador USB Studio",
     "price": 89.9,
     "description": "Micrófono profesional de patrón cardioide ideal para podcasts, streaming y locución en casa.",
@@ -64,7 +57,6 @@
   },
   {
     "id": 8,
-    "nombre": "Smartwatch Deportivo GPS",
     "title": "Smartwatch Deportivo GPS",
     "price": 149.0,
     "description": "Monitor de ritmo cardíaco, resistencia al agua hasta 50m y seguimiento de múltiples actividades deportivas.",
@@ -73,7 +65,6 @@
   },
   {
     "id": 9,
-    "nombre": "Disco Duro SSD Externo 1TB NVMe",
     "title": "Disco Duro SSD Externo 1TB NVMe",
     "price": 119.99,
     "description": "Velocidades de lectura de hasta 1050 MB/s con cuerpo compacto de aluminio resistente a caídas.",
@@ -82,7 +73,6 @@
   },
   {
     "id": 10,
-    "nombre": "Silla Gamer Ergonómica Pro",
     "title": "Silla Gamer Ergonómica Pro",
     "price": 219.0,
     "description": "Reclinable 180°, soportes lumbar y cervical ajustables con acabado en cuero sintético de alta resistencia.",
@@ -91,7 +81,6 @@
   },
   {
     "id": 11,
-    "nombre": "Altavoz Portátil Bluetooth Waterproof",
     "title": "Altavoz Portátil Bluetooth Waterproof",
     "price": 59.99,
     "description": "Sonido estéreo en 360°, certificación IPX7 a prueba de agua y batería para 12 horas de música.",
@@ -100,7 +89,6 @@
   },
   {
     "id": 12,
-    "nombre": "Tablet Pro 11\" 128GB",
     "title": "Tablet Pro 11\" 128GB",
     "price": 449.0,
     "description": "Pantalla Retina de alta resolución, compatible con lápiz óptico y teclado magnético para diseño.",
@@ -109,7 +97,6 @@
   },
   {
     "id": 13,
-    "nombre": "Router Wi-Fi 6 Mesh Dual Band",
     "title": "Router Wi-Fi 6 Mesh Dual Band",
     "price": 99.5,
     "description": "Cobertura extendida de alta velocidad para streaming en 4K y conexiones simultáneas de múltiples dispositivos.",
@@ -118,7 +105,6 @@
   },
   {
     "id": 14,
-    "nombre": "Visor de Realidad Virtual VR 128GB",
     "title": "Visor de Realidad Virtual VR 128GB",
     "price": 399.0,
     "description": "Experiencia inmersiva totalmente autónoma sin cables, con resolución 4K y mandos hápticos.",
@@ -127,7 +113,6 @@
   },
   {
     "id": 15,
-    "nombre": "Tarjeta Gráfica RTX 4070 12GB",
     "title": "Tarjeta Gráfica RTX 4070 12GB",
     "price": 649.99,
     "description": "Rendimiento de última generación con Ray Tracing y DLSS 3 para gaming fluido en 1440p y 4K.",

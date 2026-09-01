@@ -82,9 +82,15 @@ Frontend con arquitectura **feature-first**: cada dominio de negocio agrupa sus 
     └── app/
         ├── __init__.py
         ├── main.py                      # Instancia de FastAPI + middleware CORS + routers
+        ├── catalog.py                   # Carga el catálogo desde data/products.json
+        ├── database.py                  # Engine y sesión de SQLAlchemy (DATABASE_URL)
+        ├── models.py                    # Modelo Product (tabla products)
+        ├── seed.py                      # Puebla la BD desde products.json (idempotente)
+        ├── data/
+        │   └── products.json            # Catálogo de productos (15 items)
         ├── routers/
-        │   ├── products.py              # Proxy a fakestoreapi.com
-        │   └── admin.py                 # Stats de administración
+        │   ├── products.py              # Endpoints del catálogo (lee de products.json)
+        │   └── admin.py                 # Stats de administración derivadas del catálogo
         └── schemas/
             └── products.py              # Modelos Pydantic (ProductBase, ProductResponse)
 ```
@@ -94,7 +100,7 @@ Frontend con arquitectura **feature-first**: cada dominio de negocio agrupa sus 
 | Método | Ruta                       | Descripción                                   |
 | ------ | -------------------------- | --------------------------------------------- |
 | GET    | `/health`                  | Health check del servicio                     |
-| GET    | `/api/products/`           | Lista de productos (proxy a fakestoreapi.com) |
+| GET    | `/api/products/`           | Lista de productos (fuente: `products.json`) |
 | GET    | `/api/products/categories` | Categorías únicas del catálogo                |
 | GET    | `/api/products/{id}`       | Detalle de un producto por id                 |
 | GET    | `/api/admin/stats`         | Estadísticas de administración                |
