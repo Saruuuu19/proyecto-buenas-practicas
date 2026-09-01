@@ -18,6 +18,7 @@ _default_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://proyecto-buenas-practicas.onrender.com",
+    "https://techflowstore.netlify.app",
 ]
 _frontend_url = os.getenv("FRONTEND_URL", "").strip()
 _extra_origins = [o.strip() for o in _frontend_url.split(",") if o.strip()] if _frontend_url else []
