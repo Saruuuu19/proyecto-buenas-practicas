@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
@@ -5,13 +6,16 @@ from app import models
 
 from app.routers import admin, products
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
 app = FastAPI(
     title="TechFlow Store API",
     description="API REST de e-commerce y administración",
     version="1.0.0",
+    lifespan=lifespan
 )
-
-Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
