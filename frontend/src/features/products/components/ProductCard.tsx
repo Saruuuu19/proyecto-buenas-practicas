@@ -13,7 +13,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <img
           src={product.image}
           alt={product.title}
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+          className="object-cover w-full h-full rounded-xl group-hover:scale-105 transition-transform duration-500"
         />
       </div>
       <div className="p-4 flex flex-col grow">
