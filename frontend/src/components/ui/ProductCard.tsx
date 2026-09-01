@@ -1,30 +1,21 @@
-import { Star, Heart, ShoppingCart, Eye } from "lucide-react";
 import { useState } from "react";
+import { Star, Heart, ShoppingCart, Eye } from "lucide-react";
 import type { Product } from "../../data/products";
+import { useCart } from "../../context/CartContext";
 
 interface ProductCardProps {
   product: Product;
 }
 
-const badgeStyles: Record<string, string> = {
-  Nuevo: "bg-blue-500 text-white",
-  "Más vendido": "bg-amber-500 text-white",
-  Disponible: "bg-emerald-500 text-white",
-  Oferta: "bg-red-500 text-white",
-};
-
 export function ProductCard({ product }: ProductCardProps) {
   const [wishlisted, setWishlisted] = useState(false);
-  const [addedToCart, setAddedToCart] = useState(false);
+  const { addItem } = useCart();
 
   const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    ? Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100
+      )
     : 0;
-
-  const handleAddToCart = () => {
-    setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 1500);
-  };
 
   return (
     <div className="product-card bg-surface rounded-xl overflow-hidden flex flex-col h-full group">
@@ -64,15 +55,11 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <button
-          onClick={handleAddToCart}
-          className={`absolute bottom-3 left-3 right-3 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-lg ${
-            addedToCart
-              ? "bg-emerald-500 text-white"
-              : "bg-primary text-white hover:bg-primary/90"
-          }`}
+          onClick={() => addItem(product)}
+          className="absolute bottom-3 left-3 right-3 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-lg bg-primary text-white hover:bg-primary/90"
         >
           <ShoppingCart className="h-4 w-4" />
-          {addedToCart ? "Agregado" : "Agregar al carrito"}
+          Agregar al carrito
         </button>
       </div>
 
