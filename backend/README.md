@@ -14,11 +14,11 @@ Manager de paquetes: **uv** (lockfile: `uv.lock`, build: hatchling).
 
 ## Endpoints
 
-| Método | Ruta                       | Descripción                                  |
-| ------ | -------------------------- | -------------------------------------------- |
+| Método | Ruta                       | Descripción                                   |
+| ------ | -------------------------- | --------------------------------------------- |
 | GET    | `/health`                  | Health check del servicio                     |
 | GET    | `/api/products/`           | Lista de productos (proxy a fakestoreapi.com) |
-| GET    | `/api/products/categories` | Categorías únicas del catálogo               |
+| GET    | `/api/products/categories` | Categorías únicas del catálogo                |
 | GET    | `/api/products/{id}`       | Detalle de un producto por id                 |
 | GET    | `/api/admin/stats`         | Estadísticas de administración                |
 
