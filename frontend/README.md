@@ -1,75 +1,67 @@
-# React + TypeScript + Vite
+# Frontend — TechFlow Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación React + Vite + TypeScript del e-commerce TechFlow. Consume la API de FastAPI en `/backend`.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + TypeScript
+- Vite 8 (bundler / dev server)
+- Tailwind CSS 4 (estilos en `src/global.css`)
+- React Router DOM 7 (enrutado)
+- Axios (cliente HTTP)
+- Lucide React (iconos)
+- ESLint 10 + typescript-eslint
 
-## React Compiler
+Manager de paquetes: **pnpm**.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Estructura
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Arquitectura **feature-first**: cada dominio de negocio vive en `src/features/<dominio>/` con sus componentes, hooks y páginas. La capa HTTP está en `src/api/`, la UI genérica en `src/components/ui/`, y el layout en `src/layout/`.
 
 ```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+src/
+├── main.tsx
+├── global.css
+├── app/            # Layout raíz, rutas y 404
+├── api/            # client.ts (axios) + products.ts (endpoints tipados)
+├── components/ui/  # SearchBar, Spinner, ErrorState
+├── features/
+│   ├── home/       # HeroSection + HomePage
+│   └── products/   # ProductCard, FeaturedProducts, CategoryGrid, useProducts, useCategories, ProductsPage
+├── layout/         # Header, Footer
+├── hooks/          # useApi (fetch + loading/error/reload)
+├── lib/            # utils.ts (normalize, formatPrice)
+└── types/          # Tipos compartidos (Product)
 ```
+
+## Configuración
+
+1. Instalar dependencias:
+
+```bash
+pnpm install
+```
+
+2. (Opcional) Crear `.env` a partir de `.env.example` para apuntar a otra URL de API:
+
+```bash
+cp .env.example .env
+```
+
+3. Levantar el dev server:
+
+```bash
+pnpm dev
+```
+
+## Scripts
+
+- `pnpm dev` — servidor de desarrollo (puerto 5173)
+- `pnpm build` — `tsc -b && vite build`
+- `pnpm lint` — `eslint .`
+- `pnpm preview` — previsualiza el build
+
+## Notas
+
+- Los productos se obtienen del backend (`GET /api/products/`), que a su vez los proxya desde fakestoreapi.com. No hay datos mock en el frontend.
+- La búsqueda y el filtro por categoría usan query params (`/productos?search=...` y `/productos?category=...`).
