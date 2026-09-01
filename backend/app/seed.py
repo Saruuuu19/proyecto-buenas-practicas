@@ -1,8 +1,8 @@
-import httpx
+from decimal import Decimal
 
+from app.catalog import get_products
 from app.database import SessionLocal
 from app.models import Product
-from decimal import Decimal
 
 
 def seed_products():
@@ -11,19 +11,7 @@ def seed_products():
             print("La tabla products ya tiene datos, no se vuelve a poblar.")
             return
 
-        try:
-            response = httpx.get("https://fakestoreapi.com/products", timeout=10)
-            response.raise_for_status()
-        except httpx.RequestError as exc:
-            print(f"Error de conexión con fakestoreapi: {exc}")
-            return
-        except httpx.HTTPStatusError as exc:
-            print(f"fakestoreapi respondió con error: {exc}")
-            return
-
-        products_data = response.json()
-
-        for item in products_data:
+        for item in get_products():
             product = Product(
                 title=item["title"],
                 price=Decimal(str(item["price"])),

@@ -1,38 +1,24 @@
-import json
-from pathlib import Path
-
 from fastapi import APIRouter, HTTPException
 
+from app.catalog import get_categories, get_product, get_products
 from app.schemas.products import ProductResponse
 
 router = APIRouter(prefix="/products", tags=["products"])
 
-PRODUCTS_FILE = Path(__file__).resolve().parent.parent / "data" / "products.json"
-
-
-def _load_products() -> list[dict]:
-    """Carga el catálogo de productos desde products.json (fuente de verdad)."""
-    with open(PRODUCTS_FILE, encoding="utf-8") as f:
-        return json.load(f)
-
-
-# Catálogo cargado una sola vez al importar el módulo.
-_PRODUCTS = _load_products()
-
 
 @router.get("/", response_model=list[ProductResponse])
 async def get_all_products():
-    return _PRODUCTS
+    return get_products()
 
 
 @router.get("/categories", response_model=list[str])
-async def get_categories():
-    return sorted({product["category"] for product in _PRODUCTS})
+async def get_categories_endpoint():
+    return get_categories()
 
 
 @router.get("/{product_id}", response_model=ProductResponse)
 async def get_product_by_id(product_id: int):
-    for product in _PRODUCTS:
-        if product["id"] == product_id:
-            return product
-    raise HTTPException(status_code=404, detail="Producto no encontrado")
+    product = get_product(product_id)
+    if product is None:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    return product

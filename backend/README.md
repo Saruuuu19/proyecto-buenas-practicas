@@ -1,14 +1,13 @@
 # Backend — TechFlow Store API
 
-API REST de FastAPI del e-commerce TechFlow. Sirve el catálogo proxyando **fakestoreapi.com** y expone estadísticas de administración.
+API REST de FastAPI del e-commerce TechFlow. Sirve el catálogo desde un archivo JSON local (`app/data/products.json`), con conexión a base de datos mediante SQLAlchemy.
 
 ## Stack
 
 - Python 3.14
 - FastAPI 0.141 (`[standard]`, incluye uvicorn y pydantic)
 - Pydantic 2.13
-- httpx (cliente HTTP para el proxy)
-- SQLAlchemy 2.0 (preparado para base de datos)
+- SQLAlchemy 2.0 + psycopg2 (conexión a base de datos)
 
 Manager de paquetes: **uv** (lockfile: `uv.lock`, build: hatchling).
 
@@ -17,7 +16,7 @@ Manager de paquetes: **uv** (lockfile: `uv.lock`, build: hatchling).
 | Método | Ruta                       | Descripción                                   |
 | ------ | -------------------------- | --------------------------------------------- |
 | GET    | `/health`                  | Health check del servicio                     |
-| GET    | `/api/products/`           | Lista de productos (proxy a fakestoreapi.com) |
+| GET    | `/api/products/`           | Lista de productos (fuente: `products.json`) |
 | GET    | `/api/products/categories` | Categorías únicas del catálogo                |
 | GET    | `/api/products/{id}`       | Detalle de un producto por id                 |
 | GET    | `/api/admin/stats`         | Estadísticas de administración                |
@@ -36,9 +35,15 @@ La API queda en `http://localhost:8000`. Docs interactivas en `http://localhost:
 ```
 app/
 ├── main.py            # Instancia de FastAPI + middleware CORS + routers
+├── catalog.py         # Carga el catálogo desde data/products.json (fuente de verdad)
+├── database.py        # Engine y sesión de SQLAlchemy (DATABASE_URL)
+├── models.py          # Modelo Product (tabla products)
+├── seed.py            # Puebla la BD desde products.json (idempotente)
+├── data/
+│   └── products.json  # Catálogo de productos (15 items)
 ├── routers/
-│   ├── products.py    # Proxy a fakestoreapi.com
-│   └── admin.py       # Stats de administración
+│   ├── products.py    # Endpoints del catálogo (lee de products.json)
+│   └── admin.py       # Stats de administración derivadas del catálogo
 └── schemas/
     └── products.py    # Modelos Pydantic (ProductBase, ProductResponse, ProductCreate)
 ```
