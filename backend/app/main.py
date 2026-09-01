@@ -13,8 +13,12 @@ app = FastAPI(
 
 # CORS configurable para deploy en Render
 # FRONTEND_URL puede contener una o varias URLs separadas por coma
-# ej: FRONTEND_URL=https://techflow-frontend.onrender.com,https://techflow.vercel.app
-_default_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+# ej: FRONTEND_URL=https://proyecto-buenas-practicas.onrender.com
+_default_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://proyecto-buenas-practicas.onrender.com",
+]
 _frontend_url = os.getenv("FRONTEND_URL", "").strip()
 _extra_origins = [o.strip() for o in _frontend_url.split(",") if o.strip()] if _frontend_url else []
 allow_origins = _default_origins + _extra_origins
