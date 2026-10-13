@@ -2,6 +2,12 @@
 
 Proyecto de buenas prácticas de desarrollo de software: un panel de planificación de sprints y arquitectura para una plataforma de e-commerce.
 
+## INTEGRANTES
+
+- Santiago Suarez
+- Santiago Guerra
+- Andrés Retamoso
+
 ## Stack completo
 
 ### Frontend (`/frontend`)
