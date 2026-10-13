@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import type { FormEvent } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
 
 interface SearchBarProps {
@@ -7,25 +8,34 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ className = "" }: SearchBarProps) {
-  const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("search") ?? "");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (query.trim()) {
-      navigate(`/productos?q=${encodeURIComponent(query.trim())}`);
-    }
-  };
+    const q = query.trim();
+    navigate(q ? `/productos?search=${encodeURIComponent(q)}` : "/productos");
+  }
 
   return (
-    <form onSubmit={handleSubmit} className={`relative group ${className}`}>
+    <form
+      role="search"
+      className={`relative group ${className}`}
+      onSubmit={handleSubmit}
+    >
+      <label htmlFor="search-input" className="sr-only">
+        Buscar productos
+      </label>
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary h-4 w-4" />
       <input
-        type="text"
+        id="search-input"
+        type="search"
+        placeholder="Buscar productos..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Buscar productos..."
-        className="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-10 pr-4 text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+        autoComplete="off"
+        className="w-full h-11 bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-10 pr-4 text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
       />
     </form>
   );
