@@ -106,3 +106,11 @@ Frontend con arquitectura **feature-first**: cada dominio de negocio agrupa sus 
 | GET    | `/api/admin/stats`         | Estadísticas de administración                |
 
 El frontend consume la API mediante axios con `baseURL` configurable vía `VITE_API_BASE_URL` (por defecto `http://localhost:8000/api`). CORS permite `http://localhost:5173` y `http://127.0.0.1:5173`.
+
+## Despliegue en AWS
+
+| Integrante            | URL del sitio                                                         | Bucket publico           | Bucket privado             |
+| --------------------- | --------------------------------------------------------------------- | ------------------------ | -------------------------- |
+| Santiago Guerra Perez | http://cuc-bp-guerra-sitio-2026.s3-website-us-east-1.amazonaws.com    | cuc-bp-guerra-sitio-2026 | cuc-bp-guerra-privado-2026 |
+
+El front-end dejó de publicarse en Netlify y pasó a Amazon S3 porque el proyecto se está moviendo por fases a infraestructura de AWS: primero el sitio estático, y en las siguientes fases el servidor y la base de datos. Cada integrante despliega el mismo código del repositorio en su propia cuenta. El **bucket público** contiene el build del front-end (`frontend/dist`) y tiene una política que solo permite leer objetos (`s3:GetObject`), que es lo mínimo que necesita un visitante para ver el sitio. El **bucket privado** conserva el bloqueo de acceso público y no tiene política: guarda archivos internos y responde `403 AccessDenied` a cualquier petición anónima.
