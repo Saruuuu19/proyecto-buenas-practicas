@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { ProductCard } from "../components/ProductCard";
+import { ProductForm } from "../components/ProductForm";
 import { Spinner } from "../../../components/ui/Spinner";
 import { ErrorState } from "../../../components/ui/ErrorState";
 import { filterProducts } from "../../../lib/filterProducts";
@@ -9,7 +10,7 @@ export function ProductsPage() {
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search") ?? "";
   const category = searchParams.get("category") ?? "";
-  const { data: products, loading, error } = useProducts();
+  const { data: products, loading, error, reload } = useProducts();
 
   const filtered = filterProducts(products ?? [], search, category);
 
@@ -19,6 +20,7 @@ export function ProductsPage() {
         <h2 className="text-headline-lg font-semibold text-on-background mb-6">
           Productos
         </h2>
+        <ProductForm onCreated={() => void reload()} />
         {loading ? (
           <Spinner />
         ) : error ? (

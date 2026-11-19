@@ -15,3 +15,20 @@ export async function getCategories(): Promise<string[]> {
   const { data } = await api.get<string[]>("/products/categories");
   return data;
 }
+
+export interface NewProduct {
+  title: string;
+  price: number;
+  category: string;
+  image: string;
+  /** El esquema ProductCreate del backend lo exige; el formulario no lo pide. */
+  description?: string;
+}
+
+export async function createProduct(payload: NewProduct): Promise<Product> {
+  const { data } = await api.post<Product>("/products", {
+    description: "",
+    ...payload,
+  });
+  return data;
+}
