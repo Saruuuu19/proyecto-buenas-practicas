@@ -1,0 +1,61 @@
+﻿pnpm.exe : $ vitest run
+En C:\Users\santy\AppData\Roaming\npm\pnpm.ps1: 14 Carácter: 3
++   & "$basedir/node_modules/pnpm/pnpm.exe"   $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ vitest run:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+ RUN  v5.1.0 C:/Users/santy/proyecto-buenas-practicas-suarez/frontend
+
+ ÔØ» src/lib/filterProducts.test.ts (6 tests | 1 failed) 21ms
+   ÔØ» filterProducts (6)
+     ├ù la b├║squeda no distingue may├║sculas ni espacios 11ms
+ ÔØ» src/lib/utils.test.ts (4 tests | 1 failed) 45ms
+   ÔØ» normalize (2)
+     ├ù quita espacios extra y pasa todo a min├║sculas 13ms
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ» Failed Tests 2 ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+
+ FAIL  src/lib/filterProducts.test.ts > filterProducts > la b├║squeda no distingue may├║sculas ni espacios
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ÔØ» src/lib/filterProducts.test.ts:45:20
+     43|   it("la b├║squeda no distingue may├║sculas ni espacios", () => {
+     44|     const result = filterProducts(catalog, "  zapatillas  ", "");
+     45|     expect(result).toHaveLength(1);
+       |                    ^
+     46|     expect(result[0].id).toBe(2);
+     47|   });
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[1/2]ÔÄ»
+
+ FAIL  src/lib/utils.test.ts > normalize > quita espacios extra y pasa todo a min├║sculas
+AssertionError: expected '  camiseta nike  ' to be 'camiseta nike' // Object.is equality
+
+Expected: "camiseta nike"
+Received: "  camiseta nike  "
+
+ ÔØ» src/lib/utils.test.ts:6:44
+      4| describe("normalize", () => {
+      5|   it("quita espacios extra y pasa todo a min├║sculas", () => {
+      6|     expect(normalize("  Camiseta NIKE  ")).toBe("camiseta nike");
+       |                                            ^
+      7|   });
+      8|
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[2/2]ÔÄ»
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 8 passed (10)
+   Start at  22:48:30
+   Duration  472ms (import 39%, tests 31%, transform 20%, worker 10%)
+
+[ELIFECYCLE] Test failed. See above for more details.

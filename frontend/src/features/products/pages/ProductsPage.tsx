@@ -3,23 +3,15 @@ import { useProducts } from "../hooks/useProducts";
 import { ProductCard } from "../components/ProductCard";
 import { Spinner } from "../../../components/ui/Spinner";
 import { ErrorState } from "../../../components/ui/ErrorState";
-import { normalize } from "../../../lib/utils";
+import { filterProducts } from "../../../lib/filterProducts";
 
 export function ProductsPage() {
   const [searchParams] = useSearchParams();
-  const search = normalize(searchParams.get("search") ?? "");
-  const category = normalize(searchParams.get("category") ?? "");
+  const search = searchParams.get("search") ?? "";
+  const category = searchParams.get("category") ?? "";
   const { data: products, loading, error } = useProducts();
 
-  const filtered = (products ?? []).filter((product) => {
-    const matchesCategory =
-      !category || normalize(product.category) === category;
-    const matchesSearch =
-      !search ||
-      normalize(product.title).includes(search) ||
-      normalize(product.category).includes(search);
-    return matchesCategory && matchesSearch;
-  });
+  const filtered = filterProducts(products ?? [], search, category);
 
   return (
     <section className="py-12">
