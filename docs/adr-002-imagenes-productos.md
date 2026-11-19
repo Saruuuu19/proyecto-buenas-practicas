@@ -1,8 +1,11 @@
-# ADR-001: Almacenamiento de imágenes de productos
+# ADR-002: Almacenamiento de imágenes de productos
 
 - **Estado:** Propuesta para revisión del equipo
 - **Fecha:** 2026-10-20
 - **Decisora:** Propuesta individual
+- **Relación:** complementa al ADR-001 (almacenamiento general del proyecto, PR #14). Antes era ADR-001 en la PR #15; se renumera para no chocar con la #14.
+
+**Decisión pendiente de acordar con el equipo:** ¿las imágenes van en el bucket público del sitio del ADR-001 bajo un prefijo `productos/`, o en un bucket separado? ¿Los originales quedan públicos o se sirven con URLs firmadas? Hasta resolverlo, este ADR queda en estado Propuesta.
 
 ## Contexto
 
