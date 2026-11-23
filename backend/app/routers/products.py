@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, status
 from pydantic import ValidationError
 
 from app.catalog import create_product, get_categories, get_product, get_products
@@ -21,7 +21,9 @@ async def get_categories_endpoint():
 async def get_product_by_id(product_id: int):
     product = get_product(product_id)
     if product is None:
-        raise HTTPException(status_code=404, detail="Producto no encontrado")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Producto no encontrado"
+        )
     return product
 
 
@@ -30,13 +32,15 @@ async def create_product_endpoint(request: Request):
     try:
         data = await request.json()
     except ValueError:
-        raise HTTPException(status_code=400, detail="Envía un objeto JSON válido.")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Envía un objeto JSON válido."
+        )
 
     try:
         product = ProductCreate.model_validate(data)
     except ValidationError as exc:
         field = exc.errors()[0]["loc"]
-        messages = {
+        messages: dict[tuple[int | str, ...], str] = {
             ("title",): "El título (title) es obligatorio y no puede estar vacío.",
             ("price",): "El precio (price) debe ser un número mayor que 0.",
             ("description",): "La descripción (description) debe ser texto.",
@@ -44,7 +48,8 @@ async def create_product_endpoint(request: Request):
             ("image",): "La imagen (image) es obligatoria y no puede estar vacía.",
         }
         raise HTTPException(
-            status_code=400, detail=messages.get(field, "Envía un objeto JSON válido.")
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=messages.get(field, "Envía un objeto JSON válido."),
         )
 
     return create_product(product.model_dump())
