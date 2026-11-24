@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -15,7 +16,49 @@ const heroStats = [
   { icon: Package, label: "Envío rápido" },
 ];
 
+const heroIcons = [
+  { label: "Computadora", icon: Laptop, size: "w-20 h-20", iconSize: "h-8 w-8" },
+  { label: "Audífonos", icon: Headphones, size: "w-24 h-24", iconSize: "h-10 w-10" },
+  { label: "Chip", icon: Cpu, size: "w-20 h-20", iconSize: "h-8 w-8" },
+];
+
+// Easing suave (aceleración y desaceleración graduales) para un movimiento premium.
+const cardTransition =
+  "transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]";
+
+/**
+ * Posición de cada tarjeta según cuál esté activa:
+ * - la activa avanza hacia el centro del grupo y se eleva;
+ * - las demás ceden el centro (se corren apenas y se reducen);
+ * - sin activa, todas vuelven a su posición original.
+ */
+function cardTransform(index: number, activeIndex: number | null): string {
+  const baseY = index === 1 ? "-translate-y-4" : ""; // el centro va elevado por defecto
+  if (activeIndex === null) return baseY;
+  if (activeIndex === index) {
+    if (index === 1) return "-translate-y-7 scale-110";
+    return `${index === 0 ? "translate-x-4" : "-translate-x-4"} -translate-y-6 scale-110`;
+  }
+  const drift = index > activeIndex ? "translate-x-1" : "-translate-x-1";
+  return `${drift} ${baseY} scale-95`;
+}
+
 export function HeroSection() {
+  const [active, setActive] = useState<number | null>(null);
+  const groupRef = useRef<HTMLDivElement>(null);
+
+  // En táctiles no hay "salir el cursor": al tocar fuera del grupo se restablece.
+  useEffect(() => {
+    if (active === null) return;
+    function handlePointerDown(event: PointerEvent) {
+      if (groupRef.current && !groupRef.current.contains(event.target as Node)) {
+        setActive(null);
+      }
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [active]);
+
   return (
     <section className="relative bg-linear-to-br from-[#0a1628] via-[#0d2847] to-primary overflow-hidden min-h-105 flex items-center">
       <div className="absolute inset-0">
@@ -54,16 +97,44 @@ export function HeroSection() {
           </ul>
         </div>
 
-        <div className="hidden md:flex items-center gap-4">
-          <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center">
-            <Laptop className="h-8 w-8 text-white/70" />
-          </div>
-          <div className="w-24 h-24 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center -translate-y-4">
-            <Headphones className="h-10 w-10 text-white/70" />
-          </div>
-          <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center">
-            <Cpu className="h-8 w-8 text-white/70" />
-          </div>
+        <div
+          ref={groupRef}
+          className="hidden md:flex items-center gap-4"
+          onPointerLeave={(event) => {
+            // Solo el ratón restablece al salir del grupo; en táctiles se limpia al tocar afuera.
+            if (event.pointerType === "mouse") setActive(null);
+          }}
+        >
+          {heroIcons.map((item, index) => {
+            const isActive = active === index;
+            const isSecondary = active !== null && !isActive;
+            const Icon = item.icon;
+
+            return (
+              <div
+                key={item.label}
+                onPointerEnter={() => setActive(index)}
+                className={`relative ${cardTransition} ${cardTransform(index, active)} ${isActive ? "z-10" : ""}`}
+              >
+                {/* Luz ambiental azul detrás de la tarjeta activa */}
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute left-1/2 top-1/2 size-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(96,165,250,0.85),rgba(59,130,246,0.3)_55%,transparent_75%)] blur-xl transition-opacity duration-500 ${isActive ? "opacity-100" : "opacity-0"}`}
+                />
+                <div
+                  className={`relative flex items-center justify-center rounded-2xl border backdrop-blur-md ${item.size} ${cardTransition} ${
+                    isActive
+                      ? "border-blue-400/70 bg-white/15 shadow-[0_0_24px_rgba(59,130,246,0.55),0_0_64px_rgba(37,99,235,0.4)]"
+                      : "border-white/10 bg-white/10"
+                  } ${isSecondary ? "opacity-70" : ""}`}
+                >
+                  <Icon
+                    className={`${item.iconSize} transition-colors duration-500 ${isActive ? "text-white" : "text-white/70"}`}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
