@@ -130,9 +130,6 @@ export function AccountMenu() {
               aria-label="Formulario de inicio de sesión"
               className="flex flex-col gap-3"
             >
-              <p className="text-body-sm text-on-surface-variant">
-                Acceso de administrador para agregar productos.
-              </p>
               <div>
                 <label
                   htmlFor="menu-username"
