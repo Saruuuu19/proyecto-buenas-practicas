@@ -2,10 +2,13 @@ import os
 from secrets import compare_digest
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi.concurrency import run_in_threadpool
 from fastapi.security import APIKeyHeader
 from pydantic import ValidationError
+from sqlalchemy.orm import Session
 
 from app.catalog import create_product, get_categories, get_product, get_products
+from app.database import get_db
 from app.schemas.products import ProductCreate, ProductResponse
 
 router = APIRouter(prefix="/products", tags=["products"])
@@ -24,18 +27,18 @@ async def require_admin(api_key: str | None = Depends(admin_api_key)):
 
 
 @router.get("/", response_model=list[ProductResponse])
-async def get_all_products():
-    return get_products()
+def get_all_products(db: Session = Depends(get_db)):
+    return get_products(db)
 
 
 @router.get("/categories", response_model=list[str])
-async def get_categories_endpoint():
-    return get_categories()
+def get_categories_endpoint(db: Session = Depends(get_db)):
+    return get_categories(db)
 
 
 @router.get("/{product_id}", response_model=ProductResponse)
-async def get_product_by_id(product_id: int):
-    product = get_product(product_id)
+def get_product_by_id(product_id: int, db: Session = Depends(get_db)):
+    product = get_product(db, product_id)
     if product is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Producto no encontrado"
@@ -49,7 +52,7 @@ async def get_product_by_id(product_id: int):
     status_code=status.HTTP_201_CREATED,
     dependencies=[Depends(require_admin)],
 )
-async def create_product_endpoint(request: Request):
+async def create_product_endpoint(request: Request, db: Session = Depends(get_db)):
     try:
         data = await request.json()
     except ValueError:
@@ -63,7 +66,10 @@ async def create_product_endpoint(request: Request):
         field = exc.errors()[0]["loc"]
         messages: dict[tuple[int | str, ...], str] = {
             ("title",): "El título (title) es obligatorio y no puede estar vacío.",
-            ("price",): "El precio (price) debe ser un número mayor que 0.",
+            ("price",): (
+                "El precio (price) debe ser un número mayor que 0 y hasta 99999999.99, "
+                "con un máximo de dos decimales."
+            ),
             ("description",): "La descripción (description) debe ser texto.",
             ("category",): "La categoría (category) es obligatoria y no puede estar vacía.",
             ("image",): "La imagen (image) es obligatoria y no puede estar vacía.",
@@ -73,4 +79,4 @@ async def create_product_endpoint(request: Request):
             detail=messages.get(field, "Envía un objeto JSON válido."),
         )
 
-    return create_product(product.model_dump())
+    return await run_in_threadpool(create_product, db, product.model_dump())

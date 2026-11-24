@@ -1,13 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
-from app.catalog import get_categories, get_products
+from app import catalog
+from app.database import get_db
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
 
 @router.get("/stats")
-async def get_stats():
-    return {
-        "products_count": len(get_products()),
-        "categories_count": len(get_categories()),
-    }
+def get_stats(db: Session = Depends(get_db)):
+    return catalog.get_stats(db)
