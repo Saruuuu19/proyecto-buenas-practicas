@@ -1,3 +1,5 @@
+from collections.abc import Mapping
+
 from sqlalchemy import distinct, func, select
 from sqlalchemy.orm import Session
 
@@ -29,6 +31,20 @@ def get_stats(db: Session) -> dict[str, int]:
 def create_product(db: Session, data: dict) -> Product:
     product = Product(**data)
     db.add(product)
+    db.commit()
+    db.refresh(product)
+    return product
+
+
+def update_product(
+    db: Session, product_id: int, changes: Mapping[str, object]
+) -> Product | None:
+    product = get_product(db, product_id)
+    if product is None:
+        return None
+
+    for field, value in changes.items():
+        setattr(product, field, value)
     db.commit()
     db.refresh(product)
     return product
