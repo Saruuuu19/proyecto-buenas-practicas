@@ -80,8 +80,9 @@ export function HeroSection() {
       if (!el) return;
       const rect = el.getBoundingClientRect();
       // Guardar coordenadas relativas al hero (0 al izquierdo, ancho al derecho)
-      targetRef.current.x = event.clientX - rect.left;
-      targetRef.current.y = event.clientY - rect.top;
+      // Usamos Math.max(0, ...) para asegurar que nunca sean negativas
+      targetRef.current.x = Math.max(0, event.clientX - rect.left);
+      targetRef.current.y = Math.max(0, event.clientY - rect.top);
       setSpotlight((s) => ({ ...s, visible: true }));
     }
 
