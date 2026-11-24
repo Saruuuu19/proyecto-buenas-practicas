@@ -128,7 +128,7 @@ export function HeroSection() {
       {/* Pequeño círculo de luz que sigue el cursor (24px de diámetro). */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute rounded-full w-6 h-6 bg-primary/30 shadow-[0_0_12px_rgba(96,165,250,0.6)] transform -translate-x-1/2 -translate-y-1/2 opacity-75 transition-opacity duration-400"
+        className="pointer-events-none absolute rounded-full w-6 h-6 bg-primary/30 shadow-[0_0_12px_rgba(96,165,250,0.6)] opacity-75 transition-opacity duration-400"
         style={{ left: `${spotlight.x}px`, top: `${spotlight.y}px`, opacity: spotlight.visible ? 1 : 0, transition: "opacity 600ms cubic-bezier(0.22, 1, 0.36, 1)" }}
       />
 
