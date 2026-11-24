@@ -20,13 +20,16 @@ Manager de paquetes: **uv** (lockfile: `uv.lock`, build: hatchling).
 | GET    | `/api/products/categories` | Categorías únicas del catálogo                |
 | GET    | `/api/products/{id}`       | Detalle de un producto por id                 |
 | POST   | `/api/products`           | Guarda un producto; requiere `X-Admin-API-Key` |
+| PATCH  | `/api/products/{id}`      | Edita un producto; requiere `X-Admin-API-Key` |
 | GET    | `/api/admin/stats`         | Estadísticas de administración                |
 
-El alta acepta precios mayores que cero, hasta `99999999.99`, con un máximo de dos decimales.
+El alta y la edición aceptan precios mayores que cero, hasta `99999999.99`, con un máximo de dos decimales.
+
+`PATCH /api/products/16` con `{"price": 29.99}` cambia solo el precio. Devuelve `200` con el producto actualizado, `404` si no existe o `400` si el ID o los datos no son válidos. Se puede editar `title`, `price`, `description`, `category` e `image`; envía al menos uno de esos campos.
 
 ## Ejecución
 
-Configura `DATABASE_URL` en `.env` (ver `.env.example`). Si vas a usar el alta, configura `ADMIN_API_KEY` solo en el backend.
+Configura `DATABASE_URL` en `.env` (ver `.env.example`). Para crear o editar productos, configura `ADMIN_API_KEY` solo en el backend.
 
 ```bash
 uv sync

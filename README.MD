@@ -200,6 +200,7 @@ El backend expone los siguientes endpoints:
 | `GET` | `/api/products/categories` | Obtiene las categorías disponibles |
 | `GET` | `/api/products/{id}` | Obtiene el detalle de un producto |
 | `POST` | `/api/products` | Guarda un producto; requiere `X-Admin-API-Key` |
+| `PATCH` | `/api/products/{id}` | Edita solo los campos enviados; requiere `X-Admin-API-Key` |
 | `GET` | `/api/admin/stats` | Obtiene estadísticas administrativas |
 
 ## Productos

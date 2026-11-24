@@ -1,9 +1,30 @@
 from decimal import Decimal
-from typing import Annotated
+from typing import Annotated, TypedDict
 
-from pydantic import BaseModel, Field, StringConstraints, field_validator
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    with_config,
+)
 
 NonEmptyString = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+
+
+def _validate_price_precision(price: float) -> float:
+    amount = Decimal(str(price))
+    if amount != amount.quantize(Decimal("0.01")):
+        raise ValueError("El precio admite hasta dos decimales.")
+    return price
+
+
+ProductPrice = Annotated[
+    float,
+    Field(gt=0, le=99_999_999.99, allow_inf_nan=False, strict=True),
+    AfterValidator(_validate_price_precision),
+]
 
 
 class ProductBase(BaseModel):
@@ -23,15 +44,16 @@ class ProductResponse(ProductBase):
 
 class ProductCreate(ProductBase):
     title: NonEmptyString
-    price: float = Field(gt=0, le=99_999_999.99, allow_inf_nan=False, strict=True)
+    price: ProductPrice
     description: str = ""
     category: NonEmptyString
     image: NonEmptyString
 
-    @field_validator("price")
-    @classmethod
-    def validate_price_precision(cls, price: float) -> float:
-        amount = Decimal(str(price))
-        if amount != amount.quantize(Decimal("0.01")):
-            raise ValueError("El precio admite hasta dos decimales.")
-        return price
+
+@with_config(ConfigDict(extra="forbid"))
+class ProductUpdate(TypedDict, total=False):
+    title: NonEmptyString
+    price: ProductPrice
+    description: str
+    category: NonEmptyString
+    image: NonEmptyString
