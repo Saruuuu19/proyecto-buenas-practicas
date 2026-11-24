@@ -45,7 +45,15 @@ function cardTransform(index: number, activeIndex: number | null): string {
 
 export function HeroSection() {
   const [active, setActive] = useState<number | null>(null);
+  const [spotlight, setSpotlight] = useState<{ x: number; y: number; visible: boolean }>({
+    x: 0,
+    y: 0,
+    visible: false,
+  });
   const groupRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<number>(0);
+  const targetRef = useRef({ x: 0, y: 0 });
+  const currentRef = useRef({ x: 0, y: 0 });
 
   // En táctiles no hay "salir el cursor": al tocar fuera del grupo se restablece.
   useEffect(() => {
@@ -58,6 +66,47 @@ export function HeroSection() {
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [active]);
+
+  // Spotlight dinámico que sigue al cursor dentro del grupo de iconos.
+  useEffect(() => {
+    const el = groupRef.current;
+    if (!el) return;
+
+    function onMove(event: PointerEvent) {
+      const currentEl = groupRef.current;
+      if (!currentEl) return;
+      const rect = currentEl.getBoundingClientRect();
+      targetRef.current.x = event.clientX - rect.left;
+      targetRef.current.y = event.clientY - rect.top;
+      setSpotlight((s) => ({ ...s, visible: true }));
+    }
+
+    function onLeave() {
+      setSpotlight((s) => ({ ...s, visible: false }));
+    }
+
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+
+    // requestAnimationFrame: interpola suavemente la luz hacia el cursor.
+    function loop() {
+      currentRef.current.x += (targetRef.current.x - currentRef.current.x) * 0.18;
+      currentRef.current.y += (targetRef.current.y - currentRef.current.y) * 0.18;
+      const currentEl = groupRef.current;
+      if (currentEl) {
+        currentEl.style.setProperty("--spotlight-x", `${currentRef.current.x}px`);
+        currentEl.style.setProperty("--spotlight-y", `${currentRef.current.y}px`);
+      }
+      frameRef.current = requestAnimationFrame(loop);
+    }
+    frameRef.current = requestAnimationFrame(loop);
+
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+      cancelAnimationFrame(frameRef.current);
+    };
+  }, []);
 
   return (
     <section className="relative bg-linear-to-br from-[#0a1628] via-[#0d2847] to-primary overflow-hidden min-h-105 flex items-center">
@@ -99,12 +148,22 @@ export function HeroSection() {
 
         <div
           ref={groupRef}
-          className="hidden md:flex items-center gap-4"
+          className="relative hidden md:flex items-center gap-4"
           onPointerLeave={(event) => {
             // Solo el ratón restablece al salir del grupo; en táctiles se limpia al tocar afuera.
             if (event.pointerType === "mouse") setActive(null);
           }}
         >
+          {/* Luz dinámica que sigue al cursor, detrás de los iconos (primero en el DOM). */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: `radial-gradient(circle at ${spotlight.x}px ${spotlight.y}px, rgba(96, 165, 250, 0.35), rgba(59, 130, 246, 0.12) 45%, transparent 70%)`,
+              opacity: spotlight.visible ? 1 : 0,
+              transition: "opacity 600ms cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+          />
           {heroIcons.map((item, index) => {
             const isActive = active === index;
             const isSecondary = active !== null && !isActive;

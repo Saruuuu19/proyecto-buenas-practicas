@@ -1,6 +1,6 @@
 import { HeroSection } from "../components/HeroSection";
 import { BenefitsBar } from "../components/BenefitsBar";
-import { CategoryGrid } from "../../products/components/CategoryGrid";
+import { WhyTechFlow } from "../components/WhyTechFlow";
 import { PromoBanner } from "../components/PromoBanner";
 import { FeaturedProducts } from "../../products/components/FeaturedProducts";
 import { BrandsSection } from "../components/BrandsSection";
@@ -11,9 +11,9 @@ export function HomePage() {
     <>
       <HeroSection />
       <BenefitsBar />
-      <CategoryGrid />
       <PromoBanner />
       <FeaturedProducts />
+      <WhyTechFlow />
       <BrandsSection />
       <Newsletter />
     </>
