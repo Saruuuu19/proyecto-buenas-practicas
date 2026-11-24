@@ -196,9 +196,10 @@ El backend expone los siguientes endpoints:
 | Método | Ruta | Descripción |
 |---|---|---|
 | `GET` | `/health` | Verifica el estado del servicio |
-| `GET` | `/api/products/` | Obtiene la lista de productos |
+| `GET` | `/api/products/` | Obtiene el catálogo de la base de datos |
 | `GET` | `/api/products/categories` | Obtiene las categorías disponibles |
 | `GET` | `/api/products/{id}` | Obtiene el detalle de un producto |
+| `POST` | `/api/products` | Guarda un producto; requiere `X-Admin-API-Key` |
 | `GET` | `/api/admin/stats` | Obtiene estadísticas administrativas |
 
 ## Productos
@@ -209,13 +210,7 @@ El backend expone los siguientes endpoints:
 GET /api/products/
 ```
 
-Devuelve el catálogo completo de productos.
-
-La fuente actual de los productos es:
-
-```text
-backend/app/data/products.json
-```
+Devuelve el catálogo de la tabla `products`, ordenado por ID.
 
 ### Obtener categorías
 
@@ -232,6 +227,14 @@ GET /api/products/{id}
 ```
 
 Devuelve la información correspondiente al producto indicado por su `id`.
+
+### Crear un producto
+
+```http
+POST /api/products
+```
+
+Guarda el producto en la base de datos. Usa el encabezado `X-Admin-API-Key` con la clave configurada en `ADMIN_API_KEY` en el backend.
 
 ---
 
@@ -314,6 +317,12 @@ Instalar las dependencias:
 
 ```bash
 uv sync
+```
+
+Configurar `DATABASE_URL` según la [guía del backend](backend/README.md#ejecución). Si la tabla está vacía y quieres el catálogo inicial, ejecutar con la API detenida:
+
+```bash
+uv run python -m app.seed
 ```
 
 Ejecutar el servidor:
@@ -497,7 +506,7 @@ Los datos iniciales del catálogo se encuentran en:
 backend/app/data/products.json
 ```
 
-Actualmente contiene **15 productos**.
+Contiene **15 productos** y se usa solo para la carga inicial.
 
 El archivo:
 
@@ -505,7 +514,7 @@ El archivo:
 backend/app/catalog.py
 ```
 
-se encarga de cargar el catálogo.
+consulta y guarda los productos en la tabla `products`.
 
 El archivo:
 
@@ -513,7 +522,7 @@ El archivo:
 backend/app/seed.py
 ```
 
-permite poblar la base de datos utilizando el catálogo de productos de forma idempotente.
+puebla la tabla si está vacía. Conserva los IDs del JSON y no modifica una tabla que ya tenga datos.
 
 ---
 
@@ -552,7 +561,7 @@ Backend (FastAPI)
    ├── Products Router
    │       │
    │       ▼
-   │   Catálogo / Products
+   │   Tabla products
    │
    └── Admin Router
            │
@@ -568,6 +577,7 @@ El proyecto cuenta actualmente con:
 
 - Catálogo de productos.
 - Consulta de productos mediante API.
+- Alta de productos persistente y protegida por clave de administrador.
 - Consulta individual de productos.
 - Consulta de categorías.
 - Estadísticas administrativas.
