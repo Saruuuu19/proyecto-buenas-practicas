@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { ShoppingCart, User, Menu, X, Zap } from "lucide-react";
+import { ShoppingCart, Menu, X, Zap } from "lucide-react";
 import { SearchBar } from "../components/ui/SearchBar";
+import { AccountMenu } from "../features/auth/components/AccountMenu";
 
 const navLinks = [
   { label: "Inicio", to: "/" },
@@ -88,9 +89,7 @@ export function Header() {
           <button type="button" aria-label="Carrito" className={iconButtonClass}>
             <ShoppingCart className="h-5 w-5" />
           </button>
-          <button type="button" aria-label="Mi cuenta" className={iconButtonClass}>
-            <User className="h-5 w-5" />
-          </button>
+          <AccountMenu />
           <button
             type="button"
             ref={toggleRef}
