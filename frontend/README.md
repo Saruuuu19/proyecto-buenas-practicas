@@ -63,5 +63,5 @@ pnpm dev
 
 ## Notas
 
-- Los productos se obtienen del backend (`GET /api/products/`), que los sirve desde un archivo JSON local (`products.json`). No hay datos mock en el frontend.
+- Los productos se obtienen del backend (`GET /api/products/`), que los consulta en la base de datos. No hay datos mock en el frontend.
 - La búsqueda y el filtro por categoría usan query params (`/productos?search=...` y `/productos?category=...`).

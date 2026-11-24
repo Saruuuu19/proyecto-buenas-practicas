@@ -82,14 +82,14 @@ Frontend con arquitectura **feature-first**: cada dominio de negocio agrupa sus 
     └── app/
         ├── __init__.py
         ├── main.py                      # Instancia de FastAPI + middleware CORS + routers
-        ├── catalog.py                   # Carga el catálogo desde data/products.json
+        ├── catalog.py                   # Consultas y alta de productos en la BD
         ├── database.py                  # Engine y sesión de SQLAlchemy (DATABASE_URL)
         ├── models.py                    # Modelo Product (tabla products)
         ├── seed.py                      # Puebla la BD desde products.json (idempotente)
         ├── data/
-        │   └── products.json            # Catálogo de productos (15 items)
+        │   └── products.json            # Carga inicial (15 productos)
         ├── routers/
-        │   ├── products.py              # Endpoints del catálogo (lee de products.json)
+        │   ├── products.py              # Consulta y alta del catálogo
         │   └── admin.py                 # Stats de administración derivadas del catálogo
         └── schemas/
             └── products.py              # Modelos Pydantic (ProductBase, ProductResponse)
@@ -100,9 +100,12 @@ Frontend con arquitectura **feature-first**: cada dominio de negocio agrupa sus 
 | Método | Ruta                       | Descripción                                   |
 | ------ | -------------------------- | --------------------------------------------- |
 | GET    | `/health`                  | Health check del servicio                     |
-| GET    | `/api/products/`           | Lista de productos (fuente: `products.json`) |
+| GET    | `/api/products/`           | Lista de productos de la base de datos        |
 | GET    | `/api/products/categories` | Categorías únicas del catálogo                |
 | GET    | `/api/products/{id}`       | Detalle de un producto por id                 |
+| POST   | `/api/products`           | Guarda un producto; requiere `X-Admin-API-Key` |
 | GET    | `/api/admin/stats`         | Estadísticas de administración                |
+
+El JSON solo se usa para la carga inicial. Para preparar la base, consulta la [guía del backend](backend/README.md#ejecución).
 
 El frontend consume la API mediante axios con `baseURL` configurable vía `VITE_API_BASE_URL` (por defecto `http://localhost:8000/api`). CORS permite `http://localhost:5173` y `http://127.0.0.1:5173`.
