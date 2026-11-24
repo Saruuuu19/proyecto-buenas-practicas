@@ -130,6 +130,62 @@ def test_price_must_fit_database_column(client, price):
     assert client.get(f"{PRODUCTS_URL}/4").status_code == status.HTTP_404_NOT_FOUND
 
 
+def test_patch_updates_only_sent_fields_and_persists(client, sessions):
+    changes = {"price": 29.99, "description": ""}
+    response = client.patch(f"{PRODUCTS_URL}/1", json=changes, headers=ADMIN_HEADERS)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == PRODUCT | changes | {"id": 1}
+    with client_for(sessions) as next_client:
+        assert next_client.get(f"{PRODUCTS_URL}/1").json() == response.json()
+
+
+def test_patch_missing_product_returns_404(client):
+    response = client.patch(
+        f"{PRODUCTS_URL}/99999", json={"price": 29.99}, headers=ADMIN_HEADERS
+    )
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+@pytest.mark.parametrize("path, content", [
+    ("/no-es-id", '{"price": 29.99}'),
+    ("/1", '{"price":'),
+    ("/1", "[]"),
+    ("/1", "{}"),
+    ("/1", '{"price": 0, "title": "No debe guardarse"}'),
+    ("/1", '{"price": 29.999}'),
+    ("/1", '{"description": null}'),
+    ("/1", '{"title": "  "}'),
+    ("/1", '{"id": 2}'),
+])
+def test_patch_invalid_request_returns_400_without_changes(client, path, content):
+    response = client.patch(
+        f"{PRODUCTS_URL}{path}",
+        content=content,
+        headers=ADMIN_HEADERS | {"Content-Type": "application/json"},
+    )
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert client.get(f"{PRODUCTS_URL}/1").json() == PRODUCT | {"id": 1}
+
+
+@pytest.mark.parametrize("headers", [{}, {"X-Admin-API-Key": "incorrecta"}])
+def test_patch_requires_valid_admin_key(client, headers):
+    response = client.patch(
+        f"{PRODUCTS_URL}/1", json={"price": 29.99}, headers=headers
+    )
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert client.get(f"{PRODUCTS_URL}/1").json() == PRODUCT | {"id": 1}
+
+
+def test_patch_is_disabled_without_configured_key(client, monkeypatch):
+    monkeypatch.delenv("ADMIN_API_KEY")
+    response = client.patch(
+        f"{PRODUCTS_URL}/1", json={"price": 29.99}, headers=ADMIN_HEADERS
+    )
+    assert response.status_code == status.HTTP_503_SERVICE_UNAVAILABLE
+    assert client.get(f"{PRODUCTS_URL}/1").json() == PRODUCT | {"id": 1}
+
+
 def test_seeded_catalog_uses_database_and_keeps_ids(sessions, monkeypatch):
     monkeypatch.setenv("ADMIN_API_KEY", ADMIN_KEY)
     with client_for(sessions) as client:
