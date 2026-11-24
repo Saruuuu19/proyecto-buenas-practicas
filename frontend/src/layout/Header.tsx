@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ShoppingCart, Menu, X, Zap } from "lucide-react";
 import { SearchBar } from "../components/ui/SearchBar";
 import { AccountMenu } from "../features/auth/components/AccountMenu";
+import { useCart } from "../hooks/useCart";
 
 const navLinks = [
   { label: "Inicio", to: "/" },
@@ -16,6 +17,8 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const navigate = useNavigate();
+  const { itemCount } = useCart();
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -86,8 +89,21 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-1 md:gap-1.5 shrink-0">
-          <button type="button" aria-label="Carrito" className={iconButtonClass}>
+          <button
+            type="button"
+            aria-label={`Carrito (${itemCount} artículos)`}
+            onClick={() => navigate("/carrito")}
+            className={iconButtonClass}
+          >
             <ShoppingCart className="h-5 w-5" />
+            {itemCount > 0 && (
+              <span
+                aria-hidden="true"
+                className="absolute top-1 right-1 size-4 rounded-full bg-emerald-500 text-[10px] font-bold text-on-emerald-container flex items-center justify-center"
+              >
+                {itemCount > 9 ? "9+" : itemCount}
+              </span>
+            )}
           </button>
           <AccountMenu />
           <button

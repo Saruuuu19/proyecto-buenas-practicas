@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ShoppingCart, Star, Heart, Eye } from "lucide-react";
 import type { Product, ProductBadge } from "../../../types";
 import { formatPrice } from "../../../lib/utils";
+import { useCart } from "../../../hooks/useCart";
 
 interface ProductCardProps {
   product: Product;
@@ -55,6 +56,8 @@ function DiscountBadge({ product }: { product: Product }) {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [wishlisted, setWishlisted] = useState(false);
+  const { addItem, isInCart } = useCart();
+  const added = isInCart(product.id);
 
   return (
     <div className="product-card bg-surface rounded-xl overflow-hidden flex flex-col h-full group">
@@ -126,8 +129,14 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
           <button
             type="button"
-            aria-label="Agregar al carrito"
-            className="btn-primary bg-primary text-on-primary p-2 rounded-lg flex items-center justify-center"
+            aria-label={added ? "Ya está en el carrito" : "Agregar al carrito"}
+            aria-pressed={added}
+            onClick={() => addItem(product)}
+            className={`btn-primary p-2 rounded-lg flex items-center justify-center transition-all ${
+              added
+                ? "bg-emerald-500 text-on-emerald-container"
+                : "bg-primary text-on-primary"
+            } ${added ? "ring-2 ring-emerald-500/40" : ""}`}
           >
             <ShoppingCart className="size-4" />
           </button>
