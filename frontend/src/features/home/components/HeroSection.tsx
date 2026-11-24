@@ -71,33 +71,36 @@ export function HeroSection() {
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [active]);
 
-  // Spotlight dinámico que sigue al cursor por TODO el fondo del hero.
+  // Pequeño círculo de luz que sigue exactamente la posición del cursor.
   useEffect(() => {
     const el = heroRef.current;
     if (!el) return;
 
     function onMove(event: PointerEvent) {
-      const currentEl = heroRef.current;
-      if (!currentEl) return;
-      const rect = currentEl.getBoundingClientRect();
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      // Guardar coordenadas relativas al hero (0 al izquierdo, ancho al derecho)
       targetRef.current.x = event.clientX - rect.left;
       targetRef.current.y = event.clientY - rect.top;
       setSpotlight((s) => ({ ...s, visible: true }));
     }
 
     function onLeave() {
+      if (!el) return;
       setSpotlight((s) => ({ ...s, visible: false }));
     }
 
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerleave", onLeave);
 
-    // requestAnimationFrame: interpola suavemente la luz hacia el cursor.
+    // requestAnimationFrame: interpola suavemente la posición del círculo.
     function loop() {
-      currentRef.current.x += (targetRef.current.x - currentRef.current.x) * 0.18;
-      currentRef.current.y += (targetRef.current.y - currentRef.current.y) * 0.18;
+      currentRef.current.x += (targetRef.current.x - currentRef.current.x) * 0.25;
+      currentRef.current.y += (targetRef.current.y - currentRef.current.y) * 0.25;
       const currentEl = heroRef.current;
       if (currentEl) {
+        // Posicionar el círculo: las custom properties son relativas al hero (en px)
+        // Usamos translate para centrar el círculo de 24px en la coordenada guardada.
         currentEl.style.setProperty("--spotlight-x", `${currentRef.current.x}px`);
         currentEl.style.setProperty("--spotlight-y", `${currentRef.current.y}px`);
       }
@@ -122,15 +125,11 @@ export function HeroSection() {
         <div className="absolute bottom-0 left-0 w-100 h-100 bg-cyan-400/10 rounded-full blur-[100px]" />
       </div>
 
-      {/* Luz dinámica que sigue al cursor por todo el fondo del hero (detrás de todo). */}
+      {/* Pequeño círculo de luz que sigue el cursor (24px de diámetro). */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: `radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), rgba(96, 165, 250, 1), rgba(59, 130, 246, 0.4) 40%, transparent 55%)`,
-          opacity: spotlight.visible ? 1 : 0,
-          transition: "opacity 600ms cubic-bezier(0.22, 1, 0.36, 1)",
-        }}
+        className="pointer-events-none absolute rounded-full w-6 h-6 bg-primary/30 shadow-[0_0_12px_rgba(96,165,250,0.6)] transform -translate-x-1/2 -translate-y-1/2 opacity-75 transition-opacity duration-400"
+        style={{ left: `${spotlight.x}px`, top: `${spotlight.y}px`, opacity: spotlight.visible ? 1 : 0, transition: "opacity 600ms cubic-bezier(0.22, 1, 0.36, 1)" }}
       />
 
       <div className="relative w-full max-w-7xl mx-auto px-4 md:px-10 py-14 md:py-16 flex flex-col md:flex-row items-center gap-10">
