@@ -43,4 +43,17 @@ class ProductResponse(ProductBase):
 
 
 class ProductCreate(ProductBase):
-    pass
+    title: NonEmptyString
+    price: ProductPrice
+    description: str = ""
+    category: NonEmptyString
+    image: NonEmptyString
+
+
+@with_config(ConfigDict(extra="forbid"))
+class ProductUpdate(TypedDict, total=False):
+    title: NonEmptyString
+    price: ProductPrice
+    description: str
+    category: NonEmptyString
+    image: NonEmptyString
