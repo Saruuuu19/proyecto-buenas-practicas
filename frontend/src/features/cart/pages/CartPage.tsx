@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, ArrowRight, Trash2, Plus, Minus } from "lucide-react";
 import { useCart } from "../../../hooks/useCart";
 import { formatPrice } from "../../../lib/utils";
+import { ROUTES } from "../../lib/utils";
 
 export function CartPage() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export function CartPage() {
               No has agregado productos todavía. Explora nuestra tienda y encuentra lo que necesitas.
             </p>
             <Link
-              to="/productos"
+              to={ROUTES.PRODUCTS}
               className="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 transition-all no-underline"
             >
               Explorar productos

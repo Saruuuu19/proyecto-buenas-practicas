@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
+import { ROUTES } from "../../lib/utils";
 
 interface SearchBarProps {
   className?: string;
@@ -15,7 +16,7 @@ export function SearchBar({ className = "" }: SearchBarProps) {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const q = query.trim();
-    navigate(q ? `/productos?search=${encodeURIComponent(q)}` : "/productos");
+    navigate(q ? `${ROUTES.PRODUCTS}?search=${encodeURIComponent(q)}` : ROUTES.PRODUCTS);
   }
 
   return (

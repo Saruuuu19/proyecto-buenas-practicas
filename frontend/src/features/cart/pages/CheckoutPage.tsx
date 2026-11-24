@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Lock } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "../../../hooks/useCart";
 import { formatPrice } from "../../../lib/utils";
+import { ROUTES } from "../../lib/utils";
 
 export function CheckoutPage() {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export function CheckoutPage() {
             </div>
             <div className="mt-8 flex flex-col gap-3">
               <Link
-                to="/productos"
+                to={ROUTES.PRODUCTS}
                 className="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 transition-all no-underline"
               >
                 Seguir comprando

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { ROUTES } from "../../lib/utils";
 import {
   ArrowRight,
   Cpu,
@@ -140,14 +141,14 @@ export function HeroSection() {
           </h1>
           <div className="flex items-center gap-3 mb-8">
             <Link
-              to="/productos"
+              to={ROUTES.PRODUCTS}
               className="inline-flex items-center gap-2 bg-white text-primary font-semibold px-6 py-3 rounded-xl hover:bg-white/90 hover:shadow-lg hover:shadow-white/10 transition-all no-underline"
             >
               Explorar Productos
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/productos"
+              to={ROUTES.PRODUCTS}
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white font-medium px-6 py-3 rounded-xl border border-white/15 hover:bg-white/20 transition-all no-underline"
             >
               Ver Categorías

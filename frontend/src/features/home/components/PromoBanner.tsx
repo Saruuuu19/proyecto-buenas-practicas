@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ROUTES } from "../../lib/utils";
 import { ArrowRight, Zap } from "lucide-react";
 
 export function PromoBanner() {
@@ -29,7 +30,7 @@ export function PromoBanner() {
             </div>
           </div>
           <Link
-            to="/productos"
+            to={ROUTES.PRODUCTS}
             className="inline-flex items-center gap-2 bg-white text-primary font-semibold px-6 py-3 rounded-xl hover:bg-white/90 transition-all no-underline shrink-0"
           >
             Ver ofertas

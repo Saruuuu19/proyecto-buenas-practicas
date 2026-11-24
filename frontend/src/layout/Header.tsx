@@ -4,10 +4,11 @@ import { ShoppingCart, Menu, X, Zap } from "lucide-react";
 import { SearchBar } from "../components/ui/SearchBar";
 import { AccountMenu } from "../features/auth/components/AccountMenu";
 import { useCart } from "../hooks/useCart";
+import { ROUTES } from "../../lib/utils";
 
 const navLinks = [
   { label: "Inicio", to: "/" },
-  { label: "Productos", to: "/productos" },
+  { label: "Productos", to: ROUTES.PRODUCTS },
 ];
 
 const iconButtonClass =

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ROUTES } from "../../lib/utils";
 import {
   ArrowRight,
   HeadphonesIcon,
@@ -95,7 +96,7 @@ export function WhyTechFlow() {
 
         <div className="mt-10 text-center">
           <Link
-            to="/productos"
+            to={ROUTES.PRODUCTS}
             className="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all no-underline"
           >
             Explorar productos

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function useApi<T>(fetcher: () => Promise<T>) {
   const [data, setData] = useState<T | null>(null);
@@ -22,17 +22,5 @@ export function useApi<T>(fetcher: () => Promise<T>) {
     };
   }, [fetcher]);
 
-  const reload = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      setData(await fetcher());
-    } catch {
-      setError("Error al cargar los datos.");
-    } finally {
-      setLoading(false);
-    }
-  }, [fetcher]);
-
-  return { data, loading, error, reload };
+  return { data, loading, error };
 }

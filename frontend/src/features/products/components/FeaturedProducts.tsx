@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { ROUTES } from "../../lib/utils";
 import { useProducts } from "../hooks/useProducts";
 import { ProductCard } from "./ProductCard";
+import { ProductsGrid } from "./ProductsGrid";
 import { Spinner } from "../../../components/ui/Spinner";
 import { ErrorState } from "../../../components/ui/ErrorState";
 
@@ -17,7 +19,7 @@ export function FeaturedProducts() {
             Productos Destacados
           </h2>
           <Link
-            to="/productos"
+            to={ROUTES.PRODUCTS}
             className="inline-flex items-center gap-1 text-body-sm font-medium text-primary hover:text-primary/80 transition-colors no-underline"
           >
             Ver todos

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ROUTES } from "../../lib/utils";
 import { Mail, ArrowRight } from "lucide-react";
 
 export function Footer() {
