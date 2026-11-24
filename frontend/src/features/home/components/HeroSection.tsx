@@ -159,7 +159,7 @@ export function HeroSection() {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
             style={{
-              background: `radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), rgba(96, 165, 250, 0.35), rgba(59, 130, 246, 0.12) 45%, transparent 70%)`,
+              background: `radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), rgba(96, 165, 250, 0.75), rgba(59, 130, 246, 0.35) 45%, transparent 75%)`,
               opacity: spotlight.visible ? 1 : 0,
               transition: "opacity 600ms cubic-bezier(0.22, 1, 0.36, 1)",
             }}
