@@ -50,6 +50,7 @@ export function HeroSection() {
     y: 0,
     visible: false,
   });
+  const heroRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number>(0);
   const targetRef = useRef({ x: 0, y: 0 });
@@ -59,7 +60,10 @@ export function HeroSection() {
   useEffect(() => {
     if (active === null) return;
     function handlePointerDown(event: PointerEvent) {
-      if (groupRef.current && !groupRef.current.contains(event.target as Node)) {
+      if (
+        groupRef.current &&
+        !groupRef.current.contains(event.target as Node)
+      ) {
         setActive(null);
       }
     }
@@ -67,13 +71,13 @@ export function HeroSection() {
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [active]);
 
-  // Spotlight dinámico que sigue al cursor dentro del grupo de iconos.
+  // Spotlight dinámico que sigue al cursor por TODO el fondo del hero.
   useEffect(() => {
-    const el = groupRef.current;
+    const el = heroRef.current;
     if (!el) return;
 
     function onMove(event: PointerEvent) {
-      const currentEl = groupRef.current;
+      const currentEl = heroRef.current;
       if (!currentEl) return;
       const rect = currentEl.getBoundingClientRect();
       targetRef.current.x = event.clientX - rect.left;
@@ -92,7 +96,7 @@ export function HeroSection() {
     function loop() {
       currentRef.current.x += (targetRef.current.x - currentRef.current.x) * 0.18;
       currentRef.current.y += (targetRef.current.y - currentRef.current.y) * 0.18;
-      const currentEl = groupRef.current;
+      const currentEl = heroRef.current;
       if (currentEl) {
         currentEl.style.setProperty("--spotlight-x", `${currentRef.current.x}px`);
         currentEl.style.setProperty("--spotlight-y", `${currentRef.current.y}px`);
@@ -109,11 +113,25 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative bg-linear-to-br from-[#0a1628] via-[#0d2847] to-primary overflow-hidden min-h-105 flex items-center">
+    <section
+      ref={heroRef}
+      className="relative bg-linear-to-br from-[#0a1628] via-[#0d2847] to-primary overflow-hidden min-h-105 flex items-center"
+    >
       <div className="absolute inset-0">
         <div className="absolute top-0 right-0 w-125 h-125 bg-blue-400/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-100 h-100 bg-cyan-400/10 rounded-full blur-[100px]" />
       </div>
+
+      {/* Luz dinámica que sigue al cursor por todo el fondo del hero (detrás de todo). */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: `radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), rgba(96, 165, 250, 0.6), rgba(59, 130, 246, 0.25) 50%, transparent 80%)`,
+          opacity: spotlight.visible ? 1 : 0,
+          transition: "opacity 600ms cubic-bezier(0.22, 1, 0.36, 1)",
+        }}
+      />
 
       <div className="relative w-full max-w-7xl mx-auto px-4 md:px-10 py-14 md:py-16 flex flex-col md:flex-row items-center gap-10">
         <div className="flex-1">
@@ -154,16 +172,6 @@ export function HeroSection() {
             if (event.pointerType === "mouse") setActive(null);
           }}
         >
-          {/* Luz dinámica que sigue al cursor, detrás de los iconos (primero en el DOM). */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: `radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), rgba(96, 165, 250, 0.75), rgba(59, 130, 246, 0.35) 45%, transparent 75%)`,
-              opacity: spotlight.visible ? 1 : 0,
-              transition: "opacity 600ms cubic-bezier(0.22, 1, 0.36, 1)",
-            }}
-          />
           {heroIcons.map((item, index) => {
             const isActive = active === index;
             const isSecondary = active !== null && !isActive;
