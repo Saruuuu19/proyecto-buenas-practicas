@@ -1,4 +1,8 @@
-from pydantic import BaseModel
+from typing import Annotated
+
+from pydantic import BaseModel, Field, StringConstraints
+
+NonEmptyString = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
 
 class ProductBase(BaseModel):
@@ -17,4 +21,8 @@ class ProductResponse(ProductBase):
 
 
 class ProductCreate(ProductBase):
-    pass
+    title: NonEmptyString
+    price: float = Field(gt=0, allow_inf_nan=False, strict=True)
+    description: str = ""
+    category: NonEmptyString
+    image: NonEmptyString

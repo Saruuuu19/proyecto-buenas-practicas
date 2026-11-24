@@ -22,3 +22,9 @@ def get_categories() -> list[str]:
 
 def get_product(product_id: int) -> dict | None:
     return next((p for p in PRODUCTS if p["id"] == product_id), None)
+
+
+def create_product(data: dict) -> dict:
+    product = {**data, "id": max((p["id"] for p in PRODUCTS), default=0) + 1}
+    PRODUCTS.append(product)
+    return product
