@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ShoppingCart, Star, Heart, Eye } from "lucide-react";
+import { Star, Heart, Eye } from "lucide-react";
 import type { Product, ProductBadge } from "../../../types";
 import { formatPrice } from "../../../lib/utils";
+import { AddToCartButton } from "../../cart/components/AddToCartButton";
 
 interface ProductCardProps {
   product: Product;
@@ -124,13 +125,7 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
           </div>
-          <button
-            type="button"
-            aria-label="Agregar al carrito"
-            className="btn-primary bg-primary text-on-primary p-2 rounded-lg flex items-center justify-center"
-          >
-            <ShoppingCart className="size-4" />
-          </button>
+          <AddToCartButton product={product} />
         </div>
       </div>
     </div>

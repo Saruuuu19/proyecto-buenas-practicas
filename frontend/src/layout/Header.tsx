@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ShoppingCart, User, Menu, X, Zap } from "lucide-react";
 import { SearchBar } from "../components/ui/SearchBar";
+import { CartCount } from "../features/cart/components/CartCount";
 
 const navLinks = [
   { label: "Inicio", to: "/" },
@@ -85,9 +86,10 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-1 md:gap-1.5 shrink-0">
-          <button type="button" aria-label="Carrito" className={iconButtonClass}>
-            <ShoppingCart className="h-5 w-5" />
-          </button>
+          <NavLink to="/carrito" end className={iconButtonClass} onClick={() => setMobileOpen(false)}>
+            <ShoppingCart aria-hidden="true" className="h-5 w-5" />
+            <CartCount />
+          </NavLink>
           <button type="button" aria-label="Mi cuenta" className={iconButtonClass}>
             <User className="h-5 w-5" />
           </button>
