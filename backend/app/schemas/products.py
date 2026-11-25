@@ -1,10 +1,32 @@
-from pydantic import BaseModel, validator
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
+from typing import Annotated, TypedDict
+
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    with_config,
+)
 
 from app.models import PRICE_PRECISION, PRICE_SCALE
 
+NonEmptyString = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
-MAX_PRICE = Decimal("99999999.99")
+
+def _validate_price_precision(price: float) -> float:
+    amount = Decimal(str(price))
+    if amount != amount.quantize(Decimal("0.01")):
+        raise ValueError(f"El precio admite hasta {PRICE_SCALE} decimales.")
+    return price
+
+
+ProductPrice = Annotated[
+    float,
+    Field(gt=0, le=99_999_999.99, allow_inf_nan=False, strict=True),
+    AfterValidator(_validate_price_precision),
+]
 
 
 class ProductBase(BaseModel):
@@ -13,26 +35,6 @@ class ProductBase(BaseModel):
     description: str
     category: str
     image: str
-
-    @validator("price")
-    def price_must_be_valid_decimal(cls, v):
-        try:
-            decimal_price = Decimal(str(v))
-        except (InvalidOperation, ValueError):
-            raise ValueError("Precio debe ser un número decimal válido")
-        if decimal_price <= 0:
-            raise ValueError("Precio debe ser mayor que cero")
-        if decimal_price > MAX_PRICE:
-            raise ValueError(f"Precio no puede exceder {MAX_PRICE}")
-        # Verificar que no tenga más decimales de los permitidos
-        decimal_str = str(decimal_price)
-        if "." in decimal_str:
-            decimals = len(decimal_str.split(".")[1])
-            if decimals > PRICE_SCALE:
-                raise ValueError(
-                    f"Precio no puede tener más de {PRICE_SCALE} decimales"
-                )
-        return float(decimal_price)
 
 
 class ProductResponse(ProductBase):
@@ -43,4 +45,17 @@ class ProductResponse(ProductBase):
 
 
 class ProductCreate(ProductBase):
-    pass
+    title: NonEmptyString
+    price: ProductPrice
+    description: str = ""
+    category: NonEmptyString
+    image: NonEmptyString
+
+
+@with_config(ConfigDict(extra="forbid"))
+class ProductUpdate(TypedDict, total=False):
+    title: NonEmptyString
+    price: ProductPrice
+    description: str
+    category: NonEmptyString
+    image: NonEmptyString
