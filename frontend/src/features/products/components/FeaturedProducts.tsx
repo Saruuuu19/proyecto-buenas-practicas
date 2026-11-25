@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useProducts } from "../hooks/useProducts";
-import { ProductCard } from "./ProductCard";
+import { ProductsGrid } from "./ProductsGrid";
 import { Spinner } from "../../../components/ui/Spinner";
 import { ErrorState } from "../../../components/ui/ErrorState";
 
@@ -29,11 +29,7 @@ export function FeaturedProducts() {
         ) : error ? (
           <ErrorState message={error} />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featured.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <ProductsGrid products={featured} />
         )}
       </div>
     </section>
