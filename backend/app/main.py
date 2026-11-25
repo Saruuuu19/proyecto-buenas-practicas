@@ -22,25 +22,18 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS configurable para deploy en Render
-# FRONTEND_URL puede contener una o varias URLs separadas por coma
-# ej: FRONTEND_URL=https://proyecto-buenas-practicas.onrender.com
-_default_origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://proyecto-buenas-practicas.onrender.com",
-    "https://techflowstore.netlify.app",
+allow_origins = [
+    origin.strip() for origin in os.getenv("FRONTEND_URL", "").split(",") if origin.strip()
 ]
-_frontend_url = os.getenv("FRONTEND_URL", "").strip()
-_extra_origins = [o.strip() for o in _frontend_url.split(",") if o.strip()] if _frontend_url else []
-allow_origins = _default_origins + _extra_origins
+if "*" in allow_origins:
+    raise ValueError("FRONTEND_URL no admite '*'; configura orígenes explícitos.")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_credentials=False,
+    allow_methods=["GET"],
+    allow_headers=["Content-Type"],
 )
 
 app.include_router(products.router, prefix="/api")
@@ -50,4 +43,3 @@ app.include_router(admin.router, prefix="/api")
 @app.get("/health", tags=["Health"])
 def health_check():
     return {"status": "ok", "service": "Backend API Online"}
-
