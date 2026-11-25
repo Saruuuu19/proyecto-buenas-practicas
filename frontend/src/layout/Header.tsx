@@ -10,7 +10,7 @@ const navLinks = [
 ];
 
 const iconButtonClass =
-  "relative size-11 inline-flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-highest transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  "relative size-11 inline-flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-highest motion-safe:transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,7 +50,8 @@ export function Header() {
         <Link
           to="/"
           aria-label="TechFlow - Inicio"
-          className="flex items-center gap-2.5 shrink-0 no-underline"
+          className="flex items-center gap-2.5 shrink-0 min-h-11 rounded-lg no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          onClick={() => setMobileOpen(false)}
         >
           <span className="size-9 rounded-xl bg-primary text-on-primary grid place-items-center shrink-0">
             <Zap className="h-5 w-5" />
@@ -69,7 +70,7 @@ export function Header() {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `relative px-4 py-2 text-body-sm font-medium whitespace-nowrap no-underline transition-colors cursor-pointer after:absolute after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:h-0.5 after:w-6 after:rounded-full after:bg-primary after:transition-opacity ${
+                `relative inline-flex min-h-11 items-center rounded-lg px-4 py-2 text-body-sm font-medium whitespace-nowrap no-underline motion-safe:transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary after:absolute after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:h-0.5 after:w-6 after:rounded-full after:bg-primary motion-safe:after:transition-opacity ${
                   isActive
                     ? "text-primary after:opacity-100"
                     : "text-on-surface-variant hover:text-primary after:opacity-0"
@@ -81,11 +82,11 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:block w-56 xl:w-64 shrink-0">
+        <div className="hidden md:block w-44 lg:w-56 xl:w-64 shrink-0">
           <SearchBar />
         </div>
 
-        <div className="flex items-center gap-1 md:gap-1.5 shrink-0">
+        <div className="ml-auto md:ml-0 flex items-center gap-1 md:gap-1.5 shrink-0">
           <NavLink to="/carrito" end className={iconButtonClass} onClick={() => setMobileOpen(false)}>
             <ShoppingCart aria-hidden="true" className="h-5 w-5" />
             <CartCount />
@@ -109,16 +110,16 @@ export function Header() {
 
       <div
         id="mobile-menu"
-        aria-hidden={!mobileOpen}
-        inert={!mobileOpen}
-        className={`md:hidden border-t border-outline-variant bg-surface transition-all duration-200 ease-out motion-reduce:transition-none ${
-          mobileOpen
-            ? "translate-y-0 opacity-100 visible"
-            : "-translate-y-2 opacity-0 invisible"
-        }`}
+        hidden={!mobileOpen}
+        className="md:hidden border-t border-outline-variant bg-surface"
       >
         <div className="px-4 py-4 flex flex-col gap-4">
-          <SearchBar />
+          <SearchBar
+            onSearch={() => {
+              setMobileOpen(false);
+              toggleRef.current?.focus();
+            }}
+          />
           <nav aria-label="Principal" className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <NavLink
@@ -126,7 +127,7 @@ export function Header() {
                 to={link.to}
                 onClick={() => setMobileOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center rounded-lg px-4 py-3 text-body-md font-medium no-underline transition-colors cursor-pointer ${
+                  `flex min-h-11 items-center rounded-lg px-4 py-3 text-body-md font-medium no-underline motion-safe:transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                     isActive
                       ? "bg-primary-container/40 text-primary"
                       : "text-on-surface-variant hover:bg-surface-container-low hover:text-primary"

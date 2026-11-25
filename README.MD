@@ -460,12 +460,7 @@ Por defecto:
 http://localhost:8000/api
 ```
 
-El backend permite solicitudes CORS desde:
-
-```text
-http://localhost:5173
-http://127.0.0.1:5173
-```
+Para permitir solicitudes CORS del frontend, configura `FRONTEND_URL` en `backend/.env` con los orígenes separados por comas y sin barra final. Usa los orígenes locales de [`backend/.env.example`](backend/.env.example) en desarrollo. Sin esta variable, no se permite ningún origen.
 
 ---
 

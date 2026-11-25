@@ -1,42 +1,56 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 
 interface SearchBarProps {
   className?: string;
+  onSearch?: () => void;
 }
 
-export function SearchBar({ className = "" }: SearchBarProps) {
+export function SearchBar({ className = "", onSearch }: SearchBarProps) {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("search") ?? "");
+  const { key, search } = useLocation();
+  const id = useId();
+  const urlQuery = new URLSearchParams(search).get("search") ?? "";
+  const [draft, setDraft] = useState({ key, query: urlQuery });
+
+  if (draft.key !== key) {
+    setDraft({ key, query: urlQuery });
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const q = query.trim();
+    const q = draft.query.trim();
     navigate(q ? `/productos?search=${encodeURIComponent(q)}` : "/productos");
+    onSearch?.();
   }
 
   return (
     <form
       role="search"
-      className={`relative group ${className}`}
+      className={`relative ${className}`}
       onSubmit={handleSubmit}
     >
-      <label htmlFor="search-input" className="sr-only">
+      <label htmlFor={id} className="sr-only">
         Buscar productos
       </label>
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary h-4 w-4" />
       <input
-        id="search-input"
+        id={id}
         type="search"
         placeholder="Buscar productos..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={draft.query}
+        onChange={(e) => setDraft({ key, query: e.target.value })}
         autoComplete="off"
-        className="w-full h-11 bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-10 pr-4 text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+        className="w-full h-11 bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-11 pr-4 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       />
+      <button
+        type="submit"
+        aria-label="Buscar"
+        className="absolute inset-y-0 left-0 grid size-11 place-items-center rounded-lg text-on-surface-variant cursor-pointer hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        <Search aria-hidden="true" className="size-4" />
+      </button>
     </form>
   );
 }
