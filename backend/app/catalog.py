@@ -1,24 +1,50 @@
-import json
-from pathlib import Path
+from collections.abc import Mapping
 
-PRODUCTS_FILE = Path(__file__).resolve().parent / "data" / "products.json"
+from sqlalchemy import distinct, func, select
+from sqlalchemy.orm import Session
 
-
-def _load_products() -> list[dict]:
-    with open(PRODUCTS_FILE, encoding="utf-8") as f:
-        return json.load(f)
+from app.models import Product
 
 
-PRODUCTS = _load_products()
+def get_products(db: Session) -> list[Product]:
+    return list(db.scalars(select(Product).order_by(Product.id)))
 
 
-def get_products() -> list[dict]:
-    return PRODUCTS
+def get_categories(db: Session) -> list[str]:
+    return sorted(db.scalars(select(Product.category).distinct()))
 
 
-def get_categories() -> list[str]:
-    return sorted({product["category"] for product in PRODUCTS})
+def get_product(db: Session, product_id: int) -> Product | None:
+    # SQLite no puede enlazar enteros fuera del rango de un ID de 64 bits.
+    if not -(2**63) <= product_id < 2**63:
+        return None
+    return db.get(Product, product_id)
 
 
-def get_product(product_id: int) -> dict | None:
-    return next((p for p in PRODUCTS if p["id"] == product_id), None)
+def get_stats(db: Session) -> dict[str, int]:
+    products_count, categories_count = db.execute(
+        select(func.count(Product.id), func.count(distinct(Product.category)))
+    ).one()
+    return {"products_count": products_count, "categories_count": categories_count}
+
+
+def create_product(db: Session, data: dict) -> Product:
+    product = Product(**data)
+    db.add(product)
+    db.commit()
+    db.refresh(product)
+    return product
+
+
+def update_product(
+    db: Session, product_id: int, changes: Mapping[str, object]
+) -> Product | None:
+    product = get_product(db, product_id)
+    if product is None:
+        return None
+
+    for field, value in changes.items():
+        setattr(product, field, value)
+    db.commit()
+    db.refresh(product)
+    return product
