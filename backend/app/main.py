@@ -3,10 +3,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 from app.database import Base, engine
 from app import models
-from app.routers import admin, products
+from app.routers import admin, checkout, products
 
 
 @asynccontextmanager
@@ -22,29 +23,42 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS configurable para deploy en Render
-# FRONTEND_URL puede contener una o varias URLs separadas por coma
-# ej: FRONTEND_URL=https://proyecto-buenas-practicas.onrender.com
-_default_origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://proyecto-buenas-practicas.onrender.com",
-    "https://techflowstore.netlify.app",
-]
-_frontend_url = os.getenv("FRONTEND_URL", "").strip()
-_extra_origins = [o.strip() for o in _frontend_url.split(",") if o.strip()] if _frontend_url else []
-allow_origins = _default_origins + _extra_origins
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allow_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class RouteCORSMiddleware:
+    def __init__(self, app: ASGIApp, allow_origins: list[str]):
+        self.app = app
+        self.read, self.preview = (
+            CORSMiddleware(
+                app,
+                allow_origins=allow_origins,
+                allow_methods=[method],
+                allow_headers=["Content-Type"],
+                allow_credentials=False,
+            )
+            for method in ("GET", "POST")
+        )
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] == "http":
+            cors = self.preview if scope["path"] == "/api/checkout/preview" else self.read
+            # CORSMiddleware solo comprueba el método en el preflight.
+            if scope["method"] == "OPTIONS" or scope["method"] in cors.allow_methods:
+                await cors(scope, receive, send)
+                return
+        await self.app(scope, receive, send)
+
+
+allow_origins = [
+    origin.strip() for origin in os.getenv("FRONTEND_URL", "").split(",") if origin.strip()
+]
+if "*" in allow_origins:
+    raise ValueError("FRONTEND_URL no admite '*'; configura orígenes explícitos.")
+
+app.add_middleware(RouteCORSMiddleware, allow_origins=allow_origins)
 
 app.include_router(products.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
+app.include_router(checkout.router, prefix="/api")
 
 
 @app.get("/health", tags=["Health"])
