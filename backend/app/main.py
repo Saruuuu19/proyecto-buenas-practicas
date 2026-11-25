@@ -23,7 +23,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-
 class RouteCORSMiddleware:
     def __init__(self, app: ASGIApp, allow_origins: list[str]):
         self.app = app
@@ -64,4 +63,3 @@ app.include_router(checkout.router, prefix="/api")
 @app.get("/health", tags=["Health"])
 def health_check():
     return {"status": "ok", "service": "Backend API Online"}
-
