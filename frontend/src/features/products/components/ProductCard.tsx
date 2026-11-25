@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import type { Product } from "../../../types";
 import { formatPrice } from "../../../lib/utils";
+import { AddToCartButton } from "../../cart/components/AddToCartButton";
 
 interface ProductCardProps {
   product: Product;
@@ -57,13 +58,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <span className="text-headline-md text-on-background">
             {formatPrice(product.price)}
           </span>
-          <button
-            type="button"
-            aria-label="Agregar al carrito"
-            className="btn-primary bg-primary text-on-primary p-2 rounded-lg flex items-center justify-center"
-          >
-            <ShoppingCart className="size-4" />
-          </button>
+          <AddToCartButton product={product} />
         </div>
       </div>
     </div>
