@@ -10,13 +10,15 @@ from pydantic import (
     with_config,
 )
 
+from app.models import PRICE_PRECISION, PRICE_SCALE
+
 NonEmptyString = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
 
 def _validate_price_precision(price: float) -> float:
     amount = Decimal(str(price))
     if amount != amount.quantize(Decimal("0.01")):
-        raise ValueError("El precio admite hasta dos decimales.")
+        raise ValueError(f"El precio admite hasta {PRICE_SCALE} decimales.")
     return price
 
 
