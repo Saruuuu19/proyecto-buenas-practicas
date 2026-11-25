@@ -59,4 +59,4 @@ app/
     └── products.py    # Modelos Pydantic (ProductBase, ProductResponse, ProductCreate)
 ```
 
-CORS habilitado para `http://localhost:5173` y `http://127.0.0.1:5173` (dev server del frontend).
+`FRONTEND_URL` es la lista completa de orígenes CORS permitidos, separados por comas y sin barra final. Si no se configura, no se autoriza ningún origen. Para desarrollo, copia los orígenes locales de `.env.example` a tu `.env`. CORS permite leer el catálogo con `GET` y `Content-Type`, sin credenciales. `POST` y `PATCH` mantienen su autenticación y no se habilitan por CORS.

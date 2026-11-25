@@ -11,7 +11,7 @@ TechFlow Store es un proyecto de equipo con tres sitios publicados en Amazon S3,
 
 - **Un bucket público por integrante.** Sirve el frontend compilado. El acceso público se limita a la lectura de los archivos del sitio. No se guardan allí datos privados ni credenciales.
 - **Un bucket privado por integrante.** El acceso público permanece bloqueado. Los buckets quedan reservados para uso futuro: la API no los lee ni escribe en ellos y no recibe permisos para acceder a ellos en esta entrega.
-- **Una API compartida en EC2.** Los tres sitios apuntan a la misma API mediante `VITE_API_BASE_URL`. El CORS de la API en EC2 permite únicamente estos tres orígenes:
+- **Una API compartida en EC2.** Los tres sitios apuntan a la misma API mediante `VITE_API_BASE_URL`. En EC2, configura `FRONTEND_URL` únicamente con estos tres orígenes, separados por comas y sin barras finales:
 
 | Integrante | Origen del sitio |
 | --- | --- |
